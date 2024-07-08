@@ -1,4 +1,5 @@
-const { sendMail } = require('./configEmail')
+const { sendMail } = require('../../../config/configEmail')
+
 const newUserEmail = async (user) => {
   const htmlContent = `
   <!DOCTYPE html>
