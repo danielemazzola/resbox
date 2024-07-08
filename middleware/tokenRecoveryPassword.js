@@ -1,4 +1,6 @@
+const Admin = require('../models/crm/adminModel')
 const User = require('../models/customer/userModel')
+
 const tokenRecoveryPassword = async (req, res, next) => {
   const { token } = req.params
   try {
@@ -15,4 +17,22 @@ const tokenRecoveryPassword = async (req, res, next) => {
       .json({ message: 'Ups, there was a problem, please try again😑' })
   }
 }
-module.exports = { tokenRecoveryPassword }
+
+const tokenRecoveryPasswordAdmin = async (req, res, next) => {
+  const { token } = req.params
+  try {
+    const admin = await Admin.findOne({ token })
+    if (!admin)
+      return res
+        .status(404)
+        .json({ message: 'Token not found, please login😉' })
+    else next()
+  } catch (error) {
+    console.log(error)
+    return res
+      .status(500)
+      .json({ message: 'Ups, there was a problem, please try again😑' })
+  }
+}
+
+module.exports = { tokenRecoveryPassword, tokenRecoveryPasswordAdmin }

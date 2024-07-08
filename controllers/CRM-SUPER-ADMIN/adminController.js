@@ -1,5 +1,5 @@
 const bcrypt = require('bcrypt')
-const UserRestaurant = require('../../models/restaurant/UserRestaurantModel')
+const Admin = require('../../models/crm/adminModel')
 const { generateJWT } = require('../../helpers/generateJWT')
 const { generateToken } = require('../../helpers/generateToken')
 const { deleteImg } = require('../../middleware/deleteImage')
@@ -10,23 +10,20 @@ const {
 } = require('../../helpers/emails/sendEmails')
 
 const create = async (req, res, next) => {
-  const { restaurant } = req.params
-  const existeRestaurant = await UserRestaurant.findById(restaurant)
-  if (!existeRestaurant) return next()
   const email = req.body.email.toLowerCase()
   try {
-    const duplicate = await UserRestaurant.findOne({ email })
+    const duplicate = await Admin.findOne({ email })
     if (duplicate) {
       return res
         .status(409)
-        .json({ message: 'Existing user, please try to log in😊' })
+        .json({ message: 'Existing Admin, please try to log in😊' })
     }
-    const user = new UserRestaurant({ ...req.body, email })
-    await user.save()
-    newUserEmail(user)
+    const admin = new Admin({ ...req.body, email })
+    await admin.save()
+    newUserEmail(admin)
     return res
       .status(201)
-      .json({ message: 'User registered successfully😉', user })
+      .json({ message: 'Admin registered successfully😉', admin })
   } catch (error) {
     console.log(error)
     return res
@@ -38,8 +35,8 @@ const login = async (req, res) => {
   const { password } = req.body
   const email = req.body.email.toLowerCase()
   try {
-    const data = await UserRestaurant.findOne({ email })
-    if (!data) return res.status(404).json({ message: 'User not found' })
+    const data = await Admin.findOne({ email })
+    if (!data) return res.status(404).json({ message: 'admin not found' })
     if (bcrypt.compareSync(password, data.password)) {
       const token = generateJWT(data._id)
       return res.status(200).json({ data, token })
@@ -56,11 +53,11 @@ const login = async (req, res) => {
 const recoverPassword = async (req, res) => {
   const email = req.body.email.toLowerCase()
   try {
-    const user = await UserRestaurant.findOne({ email })
-    if (!user) return res.status(404).json({ message: 'User not found' })
-    user.token = generateToken()
-    await user.save()
-    await recoverEmail(user)
+    const admin = await Admin.findOne({ email })
+    if (!admin) return res.status(404).json({ message: 'admin not found' })
+    admin.token = generateToken()
+    await admin.save()
+    await recoverEmail(admin)
     return res.status(200).json({
       message:
         'We have sent a message to your inbox, please follow the password recovery instructions😊'
@@ -75,16 +72,16 @@ const recoverPassword = async (req, res) => {
 const newPassword = async (req, res) => {
   const { token } = req.params
   try {
-    const user = await UserRestaurant.findOne({ token })
-    if (!user)
+    const admin = await Admin.findOne({ token })
+    if (!admin)
       return res.status(409).json({
         message: 'Token invalid. Please check your email to try again😢'
       })
     const { password } = req.body
-    user.password = password
-    user.token = ''
-    await user.save()
-    await newPasswordEmail(user)
+    admin.password = password
+    admin.token = ''
+    await admin.save()
+    await newPasswordEmail(admin)
     return res
       .status(200)
       .json({ message: 'Password changed, please log in😍' })
@@ -98,10 +95,10 @@ const newPassword = async (req, res) => {
 
 const profile = async (req, res, next) => {
   try {
-    const user = await UserRestaurant.findById(req.user._id)
-      .select('-password -createdAt -updatedAt -__v')
-      .populate('events')
-    return res.status(200).json(user)
+    const admin = await Admin.findById(req.user._id).select(
+      '-token -password -createdAt -updatedAt -__v'
+    )
+    return res.status(200).json(admin)
   } catch (error) {
     console.log(error)
     return res
@@ -112,19 +109,18 @@ const profile = async (req, res, next) => {
 
 const updateAvatar = async (req, res) => {
   try {
-    const user = await UserRestaurant.findById(req.user._id)
-    if (!user) return res.status(404).json({ message: 'User not found' })
+    const admin = await Admin.findById(req.user._id)
+    if (!admin) return res.status(404).json({ message: 'Admin not found' })
     if (req.file) {
-      await deleteImg(user.avatar)
+      await deleteImg(admin.avatar)
       req.body.image = req.file.path
     }
-    const updateAvatar = await UserRestaurant.findByIdAndUpdate(
-      user._id,
+    const updateAvatar = await Admin.findByIdAndUpdate(
+      admin._id,
       { $set: { avatar: req.body.image } },
       { new: true }
-    )
-    if (!user) return res.status(404).json({ message: 'User not found' })
-    return res.status(201).json({ message: 'User update', updateAvatar })
+    ).select('-password -createdAt -updatedAt -__v -token')
+    return res.status(201).json({ message: 'Admin update', updateAvatar })
   } catch (error) {
     console.log(error)
     return res

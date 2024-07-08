@@ -30,19 +30,15 @@ const adminSchema = mongoose.Schema(
       type: String,
       trim: true
     },
-    confirmed: {
-      type: Boolean,
-      default: false
-    },
     roles: {
       type: [String],
-      enum: ['admin', 'superadmin'],
+      enum: ['admin', 'super-admin'],
       default: ['admin']
     }
   },
   {
     timestamps: true,
-    collection: 'User'
+    collection: 'Admin'
   }
 )
 

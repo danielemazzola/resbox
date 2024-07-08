@@ -1,25 +1,23 @@
 const ROUTER = require('express').Router()
 const { profileAvatar } = require('../../middleware/uploadImage')
 const {
-  tokenRecoveryPassword
+  tokenRecoveryPasswordAdmin
 } = require('../../middleware/tokenRecoveryPassword')
 const { isAuth } = require('../../middleware/isAuth')
 const {
   create,
-  confirmAccount,
   recoverPassword,
   newPassword,
   login,
   profile,
   updateAvatar
-} = require('../../controllers/UserController/userController')
+} = require('../../controllers/CRM-SUPER-ADMIN/adminController')
 
-ROUTER.post('/register', create) // NEW USER
-ROUTER.put('/confirm-account/:email', confirmAccount) // CONFIRM - ACCOUNT
+ROUTER.post('/register-admin', create) // NEW ADMIN
 ROUTER.post('/recovery-password', recoverPassword) // RECOVER PASSWORD
-ROUTER.put('/recovery-password/:token', tokenRecoveryPassword, newPassword) // RECOVER PASSWORD
+ROUTER.put('/recovery-password/:token', tokenRecoveryPasswordAdmin, newPassword) // RECOVER PASSWORD
 ROUTER.post('/login', login) // LOGIN
-ROUTER.get('/profile', isAuth, profile) // PROFILE USER
+ROUTER.get('/profile', isAuth, profile) // PROFILE ADMIN
 ROUTER.put(
   '/update-avatar',
   isAuth,

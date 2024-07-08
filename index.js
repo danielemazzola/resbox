@@ -33,17 +33,14 @@ APP.use(CORS())
 // END CORS
 
 // ROUTERS
+const adminRouter = require('./routes/crm-routes/adminRouter')
+APP.use('/api/v1/secure/admin', adminRouter)
+
 const userRouter = require('./routes/customer-routes/userRouter')
 APP.use('/api/v1/user', userRouter)
 
 const userRestaurantRouter = require('./routes/restaurant-routes/userRestaurantRouter')
 APP.use('/api/v1/restaurant/user', userRestaurantRouter)
-
-const superAdminCrm = require('./routes/restaurant-routes/userRestaurantRouter')
-APP.use('/api/v1/restaurant/user', superAdminCrm)
-
-/* const restaurentRouter = require('./routes/userRoutes')
-APP.use('/api/v1/restaurant', restaurentRouter) */
 
 APP.get('*', (req, res, next) => {
   const ERROR = 'URL NOT FOUND😢'
