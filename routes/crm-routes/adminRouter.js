@@ -12,6 +12,12 @@ const {
   profile,
   updateAvatar
 } = require('../../controllers/CRM-SUPER-ADMIN/adminController')
+const {
+  newRestaurant,
+  confirmAccountrestaurant,
+  updateRolesUserRestaurant
+} = require('../../controllers/CRM-SUPER-ADMIN/restaurantController')
+const { uploadFile } = require('../../middleware/uploadFile')
 
 ROUTER.post('/register-admin', create) // NEW ADMIN
 ROUTER.post('/recovery-password', recoverPassword) // RECOVER PASSWORD
@@ -23,6 +29,11 @@ ROUTER.put(
   isAuth,
   profileAvatar.single('avatar'),
   updateAvatar
-) // CHANGE AVATAR
+) //CHANGE AVATAR
+
+// RESTAURANT CONTROLLER
+ROUTER.post('/create-restaurant', uploadFile.single('file'), newRestaurant) // CRETAE RESTAURANT
+ROUTER.post('/create-restaurant', confirmAccountrestaurant) // CONFIRM ACCOUNT RESTAURANT
+ROUTER.post('/create-restaurant', updateRolesUserRestaurant) // UPDATE ROLES USERS RESTAURANT
 
 module.exports = ROUTER

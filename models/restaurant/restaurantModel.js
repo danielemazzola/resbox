@@ -27,7 +27,8 @@ const restaurantSchema = mongoose.Schema(
     email: {
       type: String,
       required: true,
-      trim: true
+      trim: true,
+      unique: true
     },
     bank_name: {
       type: String,
@@ -47,36 +48,25 @@ const restaurantSchema = mongoose.Schema(
     banner: {
       type: String,
       required: false,
-      default: 'https://cdn-icons-png.flaticon.com/512/3541/3541871.png'
+      default:
+        'https://www.v3rtice.com/wp-content/uploads/2021/06/organizacion-de-eventosblog-v3rtice-1.jpg'
     },
     confirmed: {
       type: Boolean,
       default: false
     },
-    principal_address: {
+    offices_address: {
       type: String,
       required: true
     },
-    locations_restaurant: [
-      {
-        address: {
-          type: String,
-          required: true
-        },
-        coordinates: {
-          type: {
-            type: String,
-            enum: ['Point'],
-            required: true,
-            default: 'Point'
-          },
-          coordinates: {
-            type: [Number],
-            required: true
-          }
-        }
-      }
-    ]
+    coordinate_x: {
+      type: String,
+      required: true
+    },
+    coordinate_y: {
+      type: String,
+      required: true
+    }
   },
   {
     timestamps: true,
