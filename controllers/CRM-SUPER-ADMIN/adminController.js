@@ -7,7 +7,7 @@ const {
   newUserEmail,
   recoverEmail,
   newPasswordEmail
-} = require('../../helpers/emails/sendEmails')
+} = require('./emails/sendEmails')
 
 const create = async (req, res, next) => {
   const email = req.body.email.toLowerCase()

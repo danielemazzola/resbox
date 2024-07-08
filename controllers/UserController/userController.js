@@ -2,12 +2,13 @@ const bcrypt = require('bcrypt')
 const { generateJWT } = require('../../helpers/generateJWT')
 const { generateToken } = require('../../helpers/generateToken')
 const { deleteImg } = require('../../middleware/deleteImage')
+
+const User = require('../../models/customer/userModel')
 const {
   newUserEmail,
   recoverEmail,
   newPasswordEmail
-} = require('../../helpers/emails/sendEmails')
-const User = require('../../models/customer/userModel')
+} = require('./emails/sendEmails')
 
 const create = async (req, res, next) => {
   const email = req.body.email.toLowerCase()
