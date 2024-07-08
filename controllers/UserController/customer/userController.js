@@ -1,5 +1,4 @@
 const bcrypt = require('bcrypt')
-const User = require('../../../models/customer/userModel')
 const { generateJWT } = require('../../../helpers/generateJWT')
 const { generateToken } = require('../../../helpers/generateToken')
 const { deleteImg } = require('../../../middleware/deleteImage')
@@ -8,6 +7,7 @@ const {
   recoverEmail,
   newPasswordEmail
 } = require('../../../helpers/emails/sendEmails')
+const User = require('../../../models/customer/userModel')
 
 const create = async (req, res, next) => {
   const email = req.body.email.toLowerCase()
@@ -24,6 +24,28 @@ const create = async (req, res, next) => {
     return res
       .status(201)
       .json({ message: 'User registered successfully😉', user })
+  } catch (error) {
+    console.log(error)
+    return res
+      .status(500)
+      .json({ message: 'Ups, there was a problem, please try again😑' })
+  }
+}
+const confirmAccount = async (req, res) => {
+  const email = req.params.email.toLowerCase()
+  try {
+    const exist = await User.findOne({ email })
+    if (!exist) return res.status(404).json({ message: 'User not found' })
+    if (exist.confirmed)
+      return res
+        .status(200)
+        .json({ message: 'The user has already benn confirmed😊' })
+    const user = await User.findByIdAndUpdate(
+      exist._id,
+      { $set: { confirmed: true } },
+      { new: true }
+    )
+    return res.status(200).json({ message: 'Confirmed Account, thank you❤️' })
   } catch (error) {
     console.log(error)
     return res
@@ -95,9 +117,9 @@ const newPassword = async (req, res) => {
 
 const profile = async (req, res, next) => {
   try {
-    const user = await User.findById(req.user._id)
-      .select('-password -createdAt -updatedAt -__v')
-      .populate('events')
+    const user = await User.findById(req.user._id).select(
+      '-token -password -createdAt -updatedAt -__v'
+    )
     return res.status(200).json(user)
   } catch (error) {
     console.log(error)
@@ -119,8 +141,7 @@ const updateAvatar = async (req, res) => {
       user._id,
       { $set: { avatar: req.body.image } },
       { new: true }
-    )
-    if (!user) return res.status(404).json({ message: 'User not found' })
+    ).select('-password -createdAt -updatedAt -__v -token')
     return res.status(201).json({ message: 'User update', updateAvatar })
   } catch (error) {
     console.log(error)
@@ -132,6 +153,7 @@ const updateAvatar = async (req, res) => {
 
 module.exports = {
   create,
+  confirmAccount,
   login,
   recoverPassword,
   newPassword,

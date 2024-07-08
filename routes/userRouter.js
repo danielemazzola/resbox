@@ -3,6 +3,7 @@ const { profileAvatar } = require('../middleware/uploadImage')
 const { tokenRecoveryPassword } = require('../middleware/tokenRecoveryPassword')
 const {
   create,
+  confirmAccount,
   recoverPassword,
   newPassword,
   login,
@@ -12,6 +13,7 @@ const {
 const { isAuth } = require('../middleware/isAuth')
 
 ROUTER.post('/register', create) // NEW USER
+ROUTER.put('/confirm-account/:email', confirmAccount) // CONFIRM - ACCOUNT
 ROUTER.post('/recovery-password', recoverPassword) // RECOVER PASSWORD
 ROUTER.put('/recovery-password/:token', tokenRecoveryPassword, newPassword) // RECOVER PASSWORD
 ROUTER.post('/login', login) // LOGIN

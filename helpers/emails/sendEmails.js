@@ -59,12 +59,14 @@ const newUserEmail = async (user) => {
     <body>
         <div class="email-container">
             <div class="header">
-                <h1>Events</h1>
+                <h1>RES-ROX</h1>
             </div>
             <div class="content">
                 <p>Hola <strong>${user.name}</strong>,</p>
-                <p>¡Gracias por unirte a nuestra plataforma de eventos!</p>
-                <p>Estamos emocionados de tenerte con nosotros y esperamos que disfrutes de todas las experiencias y eventos que ofrecemos.</p>
+                <p>¡Gracias por unirte a nuestra plataforma de RES-BOX!</p>
+                <p>¡Antes de continuar, es necesario que confirmes que eres tu!</p>
+                <p><a href="${process.env.FRONTEND_URL_IP}/confirm-account/${user.email}" class="button">¡SOY YO😊!</a></p>
+                <p>Estamos emocionados de tenerte con nosotros y esperamos que disfrutes de todas las experiencias y promociones que ofrecemos.</p>
                 <p>Si tienes alguna pregunta o necesitas ayuda, no dudes en ponerte en contacto con nosotros.</p>
                 <p>¡Bienvenido a la comunidad!</p>
                 <p>Saludos cordiales,</p>
@@ -140,7 +142,7 @@ const recoverEmail = async (user) => {
   <body>
       <div class="email-container">
           <div class="header">
-              <h1>Events</h1>
+              <h1>RES-BOX</h1>
           </div>
           <div class="content">
               <p>Hola <strong>${user.name}</strong>,</p>
@@ -149,7 +151,7 @@ const recoverEmail = async (user) => {
               <p><a href="${process.env.FRONTEND_URL_IP}/recovery-password/${user.token}" class="button">Recuperar Contraseña</a></p>
               <p>Muchas gracias por estar con nosotros.</p>
               <p>Te saluda el equipo,</p>
-              <p><strong>Events</strong></p>
+              <p><strong>RES-BOX</strong></p>
           </div>
           <div class="footer">
               <p>Este es un correo electrónico automático, por favor no respondas a este mensaje.</p>
@@ -205,7 +207,7 @@ const newPasswordEmail = async (user) => {
     <body>
         <div class="email-container">
             <div class="header">
-                <h1>Events</h1>
+                <h1>RES-BOX</h1>
             </div>
             <div class="content">
                 <p>Hola <strong>${user.name}</strong>,</p>
@@ -225,153 +227,8 @@ const newPasswordEmail = async (user) => {
   await sendMail(user.email, 'New Password', htmlContent)
 }
 
-const newEventEmail = async ({ user, event }) => {
-  const htmlContent = `<!DOCTYPE html>
-    <html>
-    <head>
-      <style>
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 0;
-        }
-        .email-container {
-            max-width: 600px;
-            margin: 20px auto;
-            background-color: #ffffff;
-            padding: 20px;
-            border: 1px solid #dddddd;
-            border-radius: 10px;
-        }
-        .header {
-            background-color: #000000;
-            color: #ffffff;
-            padding: 10px;
-            text-align: center;
-            border-radius: 10px 10px 0 0;
-        }
-        .content {
-            padding: 20px;
-            color: #333333;
-        }
-        .content p {
-            margin: 0 0 10px;
-        }
-        .footer {
-            margin-top: 20px;
-            text-align: center;
-            font-size: 12px;
-            color: #777777;
-        }
-      </style>
-    </head>
-    <body>
-      <div class="email-container">
-          <div class="header">
-              <h1>Events</h1>
-          </div>
-          <div class="content">
-              <p>Hola <strong>${user.name}</strong>,</p>
-              <p>Nos complace informarte que tu evento <strong>${event.title}</strong> ha sido creado con éxito.</p>
-              <p>El evento será publicado el <strong>${event.date}</strong> en tu plataforma de eventos favorita.</p>
-              <p>Gracias por utilizar nuestra plataforma para tus eventos.</p>
-              <p>Saludos cordiales,</p>
-              <p><strong>Daniele Mazzola</strong></p>
-              <p>CEO - Founder</p>
-          </div>
-          <div class="footer">
-              <p>Este es un correo electrónico automático, por favor no respondas a este mensaje.</p>
-          </div>
-      </div>
-    </body>
-    </html>`
-  await sendMail(user.email, 'New event created successfully🤩', htmlContent)
-}
-const confirmEvent = async ({ user, event }) => {
-  const htmlContent = `<!DOCTYPE html>
-  <html>
-  <head>
-    <style>
-      body {
-          font-family: Arial, sans-serif;
-          line-height: 1.6;
-          background-color: #f4f4f4;
-          margin: 0;
-          padding: 0;
-      }
-      .email-container {
-          max-width: 600px;
-          margin: 20px auto;
-          background-color: #ffffff;
-          padding: 20px;
-          border: 1px solid #dddddd;
-          border-radius: 10px;
-      }
-      .header {
-          background-color: #000000;
-          color: #ffffff;
-          padding: 10px;
-          text-align: center;
-          border-radius: 10px 10px 0 0;
-      }
-      .content {
-          padding: 20px;
-          color: #333333;
-          text-align: center;
-      }
-      .content p {
-          margin: 0 0 10px;
-      }
-      .content img {
-          max-width: 100%;
-          height: auto;
-          margin-bottom: 20px;
-          border-radius: 10px;
-      }
-      .event-title {
-          font-size: 24px;
-          font-weight: bold;
-          margin-bottom: 20px;
-      }
-      .footer {
-          margin-top: 20px;
-          text-align: center;
-          font-size: 12px;
-          color: #777777;
-      }
-    </style>
-  </head>
-  <body>
-    <div class="email-container">
-        <div class="header">
-            <h1>Events</h1>
-        </div>
-        <div class="content">
-            <p>Hola <strong>${user.name}</strong>,</p>
-            <p>Has confirmado tu asistencia para el evento:</p>
-            <img src="${event.image}" alt="Imagen del evento">
-            <p class="event-title">${event.title}</p>
-            <p>Para el día <strong>${event.date}</strong></p>
-            <p>Gracias por confiar en nosotros.</p>
-            <p>Saludos cordiales,</p>
-            <p><strong>Daniele Mazzola</strong></p>
-            <p>CEO - Founder</p>
-        </div>
-        <div class="footer">
-            <p>Este es un correo electrónico automático, por favor no respondas a este mensaje.</p>
-        </div>
-    </div>
-  </body>
-  </html>`
-  await sendMail(user.email, 'New event confirmed successfully🤩', htmlContent)
-}
-
 module.exports = {
   newUserEmail,
   recoverEmail,
-  newPasswordEmail,
-  newEventEmail,
-  confirmEvent
+  newPasswordEmail
 }

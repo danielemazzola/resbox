@@ -6,6 +6,7 @@ const CONNECTION_CLOUDINARY = require('./config/CONNECTION_CLOUDINARY')
 
 // CONF APP
 const APP = EXPRESS()
+APP.use(EXPRESS.json())
 // END CONF APP
 
 // CONNECT DDBB
@@ -17,7 +18,7 @@ CONNECTION_CLOUDINARY()
 // END CONNECT CLOUNINARY
 
 //CORS
-const whitelist = [process.env.FRONTEND_URL_IP]
+/* const whitelist = [process.env.FRONTEND_URL_IP]
 const corsOptions = {
   origin: function (origin, callback) {
     if (whitelist.includes(origin)) {
@@ -27,14 +28,18 @@ const corsOptions = {
     }
   }
 }
-APP.use(CORS(corsOptions))
+APP.use(CORS(corsOptions)) */
+APP.use(CORS())
 // END CORS
 
 // ROUTERS
-const userRouter = require('./routes/userRoutes')
+const userRouter = require('./routes/userRouter')
 APP.use('/api/v1/user', userRouter)
 
-const userRestaurantRouter = require('./routes/userRoutes')
+const administrationRestaurantRouter = require('./routes/administrationRestaurantRouter')
+APP.use('/api/v1/restaurant/administration', administrationRestaurantRouter)
+
+const userRestaurantRouter = require('./routes/userRouter')
 APP.use('/api/v1/restaurant/user', userRestaurantRouter)
 
 /* const restaurentRouter = require('./routes/userRoutes')
@@ -45,6 +50,7 @@ APP.get('*', (req, res, next) => {
   next(ERROR)
 })
 APP.use((error, req, res, next) => {
+  console.log(error)
   return res.status(500).send(error)
 })
 // END ROUTERS
