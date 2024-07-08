@@ -33,14 +33,14 @@ APP.use(CORS())
 // END CORS
 
 // ROUTERS
-const userRouter = require('./routes/userRouter')
+const userRouter = require('./routes/customer-routes/userRouter')
 APP.use('/api/v1/user', userRouter)
 
-const administrationRestaurantRouter = require('./routes/administrationRestaurantRouter')
-APP.use('/api/v1/restaurant/administration', administrationRestaurantRouter)
-
-const userRestaurantRouter = require('./routes/userRouter')
+const userRestaurantRouter = require('./routes/restaurant-routes/userRestaurantRouter')
 APP.use('/api/v1/restaurant/user', userRestaurantRouter)
+
+const superAdminCrm = require('./routes/restaurant-routes/userRestaurantRouter')
+APP.use('/api/v1/restaurant/user', superAdminCrm)
 
 /* const restaurentRouter = require('./routes/userRoutes')
 APP.use('/api/v1/restaurant', restaurentRouter) */

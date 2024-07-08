@@ -1,15 +1,14 @@
-import Restaurant from '../../models/restaurant/restaurantModel'
-
 const bcrypt = require('bcrypt')
-const UserRestaurant = require('../models/restaurant/UserRestaurantModel')
-const { generateJWT } = require('../helpers/generateJWT')
-const { generateToken } = require('../helpers/generateToken')
-const { deleteImg } = require('../middleware/deleteImage')
+const UserRestaurant = require('../../models/restaurant/UserRestaurantModel')
+const { generateJWT } = require('../../helpers/generateJWT')
+const { generateToken } = require('../../helpers/generateToken')
+const { deleteImg } = require('../../middleware/deleteImage')
 const {
   newUserEmail,
   recoverEmail,
   newPasswordEmail
-} = require('../helpers/emails/sendEmails')
+} = require('../../helpers/emails/sendEmails')
+const Restaurant = require('../../models/restaurant/restaurantModel')
 
 const create = async (req, res, next) => {
   const { restaurant } = req.params
