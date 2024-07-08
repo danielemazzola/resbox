@@ -1,7 +1,9 @@
 let fs = require('fs')
 const xlsx = require('xlsx')
 const Restaurant = require('../../models/restaurant/restaurantModel')
+
 const newRestaurant = async (req, res) => {
+  let duplicateEmail = []
   try {
     const filePath = req.file.path
     const reedFilePath = xlsx.readFile(filePath)
@@ -9,10 +11,10 @@ const newRestaurant = async (req, res) => {
     const dataFile = xlsx.utils.sheet_to_json(
       reedFilePath.Sheets[name_list_file[0]]
     )
-    let duplicateEmail = []
-    dataFile.map(async (restaurant) => {
+
+    const processRestaurant = async (restaurant) => {
       const { email } = restaurant
-      console.log(email)
+
       try {
         const exist = await Restaurant.findOne({ email })
         if (!exist) {
@@ -32,8 +34,6 @@ const newRestaurant = async (req, res) => {
           await newRestaurant.save()
         } else {
           duplicateEmail.push(email)
-          console.log(duplicateEmail)
-          console.log(`Restaurant with email ${email} already exists.`)
         }
       } catch (error) {
         console.error(
@@ -41,8 +41,13 @@ const newRestaurant = async (req, res) => {
           error
         )
       }
-    })
-    res.status(200).send({ message: 'The file was processed successfully.' })
+    }
+
+    await Promise.all(dataFile.map(processRestaurant))
+
+    res
+      .status(200)
+      .send({ message: 'The file was processed successfully.', duplicateEmail })
   } catch (error) {
     res.status(500).send({ message: 'Error processing the file.' })
   } finally {
@@ -52,6 +57,7 @@ const newRestaurant = async (req, res) => {
     })
   }
 }
+
 const confirmAccountrestaurant = async (req, res) => {}
 const updateRolesUserRestaurant = async (req, res) => {}
 
