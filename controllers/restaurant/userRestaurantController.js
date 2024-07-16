@@ -27,6 +27,7 @@ const create = async (req, res, next) => {
     }
     const user = new UserRestaurant({
       ...req.body,
+      email,
       restaurant_id: existeRestaurant._id
     })
     await user.save()
@@ -83,15 +84,9 @@ const recoverPassword = async (req, res) => {
 }
 const newPassword = async (req, res) => {
   const { token } = req.params
-  console.log(token)
+  const { user } = req
+  const { password } = req.body
   try {
-    const user = await UserRestaurant.findOne({ token })
-    if (!user)
-      return res.status(409).json({
-        message: 'Token invalid. Please check your email to try again😢'
-      })
-    const { password } = req.body
-
     user.password = password
     user.token = ''
     await user.save()

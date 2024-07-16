@@ -1,9 +1,9 @@
 const User = require('../models/customer/userModel')
 const UserRestaurant = require('../models/restaurant/UserRestaurantModel')
-const { verifyToken } = require('../helpers/generateJWT')
 const Admin = require('../models/admin/adminModel')
+const { verifyToken } = require('../helpers/generateJWT')
 
-const isAuth = async (req, res, next) => {
+const isAuthUser = async (req, res, next) => {
   const token = req.headers.authorization?.split(' ')[1]
   if (!token)
     return res.status(401).json({
@@ -81,4 +81,4 @@ const isAuthSuperAdmin = async (req, res, next) => {
   }
 }
 
-module.exports = { isAuth, isAuthRestaurant, isAuthSuperAdmin }
+module.exports = { isAuthUser, isAuthRestaurant, isAuthSuperAdmin }

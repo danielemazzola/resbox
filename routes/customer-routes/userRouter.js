@@ -12,17 +12,17 @@ const {
   profile,
   updateAvatar
 } = require('../../controllers/UserController/userController')
-const { isAuth } = require('../../middleware/isAuth')
+const { isAuthUser } = require('../../middleware/isAuth')
 
 ROUTER.post('/register', create) // NEW USER
 ROUTER.put('/confirm-account/:email', confirmAccount) // CONFIRM - ACCOUNT
 ROUTER.post('/recovery-password', recoverPassword) // RECOVER PASSWORD
 ROUTER.put('/recovery-password/:token', tokenRecoveryPasswordUser, newPassword) // RECOVER PASSWORD
 ROUTER.post('/login', login) // LOGIN
-ROUTER.get('/profile', isAuth, profile) // PROFILE USER
+ROUTER.get('/profile', isAuthUser, profile) // PROFILE USER
 ROUTER.put(
   '/update-avatar',
-  isAuth,
+  isAuthUser,
   profileAvatar.single('avatar'),
   updateAvatar
 ) // CHANGE AVATAR

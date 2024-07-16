@@ -10,7 +10,10 @@ const tokenRecoveryPasswordUser = async (req, res, next) => {
       return res
         .status(404)
         .json({ message: 'Token not found, please login😉' })
-    else next()
+    else {
+      req.user = user
+      next()
+    }
   } catch (error) {
     console.log(error)
     return res
@@ -26,7 +29,10 @@ const tokenRecoveryPasswordRestaurant = async (req, res, next) => {
       return res
         .status(404)
         .json({ message: 'Token not found, please login😉' })
-    else next()
+    else {
+      req.user = user
+      next()
+    }
   } catch (error) {
     console.log(error)
     return res
@@ -43,7 +49,10 @@ const tokenRecoveryPasswordAdmin = async (req, res, next) => {
       return res
         .status(404)
         .json({ message: 'Token not found, please login😉' })
-    else next()
+    else {
+      req.admin = admin
+      next()
+    }
   } catch (error) {
     console.log(error)
     return res

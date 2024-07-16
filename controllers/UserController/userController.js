@@ -94,13 +94,9 @@ const recoverPassword = async (req, res) => {
 }
 const newPassword = async (req, res) => {
   const { token } = req.params
+  const { user } = req
+  const { password } = req.body
   try {
-    const user = await User.findOne({ token })
-    if (!user)
-      return res.status(409).json({
-        message: 'Token invalid. Please check your email to try again😢'
-      })
-    const { password } = req.body
     user.password = password
     user.token = ''
     await user.save()
@@ -131,13 +127,13 @@ const profile = async (req, res, next) => {
 }
 
 const updateAvatar = async (req, res) => {
+  const { user } = req
   try {
-    const user = await User.findById(req.user._id)
-    if (!user) return res.status(404).json({ message: 'User not found' })
     if (req.file) {
       await deleteImg(user.avatar)
       req.body.image = req.file.path
     }
+    console.log(req.body.image)
     const updateAvatar = await User.findByIdAndUpdate(
       user._id,
       { $set: { avatar: req.body.image } },

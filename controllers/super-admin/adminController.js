@@ -71,13 +71,9 @@ const recoverPassword = async (req, res) => {
 }
 const newPassword = async (req, res) => {
   const { token } = req.params
+  const { admin } = req
+  const { password } = req.body
   try {
-    const admin = await Admin.findOne({ token })
-    if (!admin)
-      return res.status(409).json({
-        message: 'Token invalid. Please check your email to try again😢'
-      })
-    const { password } = req.body
     admin.password = password
     admin.token = ''
     await admin.save()
