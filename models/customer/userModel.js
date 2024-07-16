@@ -35,7 +35,20 @@ const userSchema = mongoose.Schema(
     confirmed: {
       type: Boolean,
       default: false
-    }
+    },
+    purchasedBoxes: [
+      {
+        box: {
+          type: mongoose.Types.ObjectId,
+          ref: 'Box'
+        },
+        remainingItems: {
+          type: Number,
+          required: true
+        }
+      },
+      { timestamps: true }
+    ]
   },
   {
     timestamps: true,

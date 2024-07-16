@@ -70,7 +70,13 @@ const restaurantSchema = mongoose.Schema(
     coordinate_y: {
       type: String,
       required: true
-    }
+    },
+    users: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'UserRestaurant'
+      }
+    ]
   },
   {
     timestamps: true,

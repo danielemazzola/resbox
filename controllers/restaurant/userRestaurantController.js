@@ -9,6 +9,7 @@ const {
   recoverEmail,
   newPasswordEmail
 } = require('./emails/sendEmails')
+const Box = require('../../models/restaurant/box-pack/boxPackModel')
 
 const create = async (req, res, next) => {
   const { restaurant } = req.params
@@ -139,11 +140,33 @@ const updateAvatar = async (req, res) => {
   }
 }
 
+const createBox = async (req, res) => {
+  const { user } = req
+  try {
+    const new_box = new Box({
+      ...req.body,
+      id_restaurant: user.id_restaurant,
+      usage_limit: req.body.items_included + req.body.bonus_items,
+      creator: user._id
+    })
+    await new_box.save()
+    return res
+      .status(201)
+      .json({ message: 'Box created successfully🤩', new_box })
+  } catch (error) {
+    console.log(error)
+    return res
+      .status(500)
+      .json({ message: 'Ups, there was a problem, please try again😑' })
+  }
+}
+
 module.exports = {
   create,
   login,
   recoverPassword,
   newPassword,
   profile,
-  updateAvatar
+  updateAvatar,
+  createBox
 }
