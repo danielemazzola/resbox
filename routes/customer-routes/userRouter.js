@@ -3,6 +3,8 @@ const { profileAvatar } = require('../../middleware/uploadImage')
 const {
   tokenRecoveryPasswordUser
 } = require('../../middleware/tokenRecoveryPassword')
+const { isAuthUser } = require('../../middleware/isAuth')
+const { existBox } = require('../../middleware/existBox')
 const {
   create,
   confirmAccount,
@@ -10,9 +12,9 @@ const {
   newPassword,
   login,
   profile,
-  updateAvatar
+  updateAvatar,
+  buyBox
 } = require('../../controllers/UserController/userController')
-const { isAuthUser } = require('../../middleware/isAuth')
 
 ROUTER.post('/register', create) // NEW USER
 ROUTER.put('/confirm-account/:email', confirmAccount) // CONFIRM - ACCOUNT
@@ -26,5 +28,6 @@ ROUTER.put(
   profileAvatar.single('avatar'),
   updateAvatar
 ) // CHANGE AVATAR
+ROUTER.put('/buy-box/:id_box', existBox, isAuthUser, buyBox)
 
 module.exports = ROUTER

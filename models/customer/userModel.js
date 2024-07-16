@@ -1,7 +1,23 @@
 const mongoose = require('mongoose')
 const bcrypt = require('bcrypt')
 
-const userSchema = mongoose.Schema(
+// Definir el esquema para purchasedBoxes
+const purchasedBoxSchema = new mongoose.Schema(
+  {
+    box: {
+      type: mongoose.Types.ObjectId,
+      ref: 'Box',
+      required: true
+    },
+    remainingItems: {
+      type: Number,
+      required: true
+    }
+  },
+  { timestamps: true }
+)
+
+const userSchema = new mongoose.Schema(
   {
     name: {
       type: String,
@@ -25,7 +41,6 @@ const userSchema = mongoose.Schema(
     },
     avatar: {
       type: String,
-      required: false,
       default: 'https://cdn-icons-png.flaticon.com/512/3541/3541871.png'
     },
     token: {
@@ -36,19 +51,7 @@ const userSchema = mongoose.Schema(
       type: Boolean,
       default: false
     },
-    purchasedBoxes: [
-      {
-        box: {
-          type: mongoose.Types.ObjectId,
-          ref: 'Box'
-        },
-        remainingItems: {
-          type: Number,
-          required: true
-        }
-      },
-      { timestamps: true }
-    ]
+    purchasedBoxes: [purchasedBoxSchema] // Usar el esquema separado aquí
   },
   {
     timestamps: true,

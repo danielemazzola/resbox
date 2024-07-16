@@ -148,6 +148,61 @@ const updateAvatar = async (req, res) => {
   }
 }
 
+const buyBox = async (req, res) => {
+  const { user } = req
+  const { box } = req
+
+  try {
+    const existBox = user.purchasedBoxes.find(
+      (userBox) => userBox.box.toString() === box._id.toString()
+    )
+
+    if (existBox) {
+      const update_box = await User.findOneAndUpdate(
+        { _id: user._id, 'purchasedBoxes.box': box._id },
+        {
+          $inc: { 'purchasedBoxes.$.remainingItems': box.usage_limit }
+        },
+        { new: true }
+      )
+
+      if (!update_box) {
+        return res.status(404).json({ message: 'User not found🤨' })
+      }
+
+      return res
+        .status(200)
+        .json({ message: 'Box updated successfully❤️', update_box })
+    } else {
+      const push_new_box = await User.findByIdAndUpdate(
+        user._id,
+        {
+          $push: {
+            purchasedBoxes: {
+              box: box._id,
+              remainingItems: box.usage_limit
+            }
+          }
+        },
+        { new: true }
+      )
+
+      if (!push_new_box) {
+        return res.status(404).json({ message: 'User not found🤨' })
+      }
+
+      return res
+        .status(201)
+        .json({ message: 'You have a new BOX❤️', push_new_box })
+    }
+  } catch (error) {
+    console.log(error)
+    return res
+      .status(500)
+      .json({ message: 'Ups, there was a problem, please try again😑' })
+  }
+}
+
 module.exports = {
   create,
   confirmAccount,
@@ -155,5 +210,6 @@ module.exports = {
   recoverPassword,
   newPassword,
   profile,
-  updateAvatar
+  updateAvatar,
+  buyBox
 }
