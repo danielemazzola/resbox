@@ -133,7 +133,6 @@ const updateAvatar = async (req, res) => {
       await deleteImg(user.avatar)
       req.body.image = req.file.path
     }
-    console.log(req.body.image)
     const updateAvatar = await User.findByIdAndUpdate(
       user._id,
       { $set: { avatar: req.body.image } },
@@ -151,12 +150,10 @@ const updateAvatar = async (req, res) => {
 const buyBox = async (req, res) => {
   const { user } = req
   const { box } = req
-
   try {
     const existBox = user.purchasedBoxes.find(
       (userBox) => userBox.box.toString() === box._id.toString()
     )
-
     if (existBox) {
       const update_box = await User.findOneAndUpdate(
         { _id: user._id, 'purchasedBoxes.box': box._id },
@@ -165,11 +162,9 @@ const buyBox = async (req, res) => {
         },
         { new: true }
       )
-
       if (!update_box) {
         return res.status(404).json({ message: 'User not found🤨' })
       }
-
       return res
         .status(200)
         .json({ message: 'Box updated successfully❤️', update_box })
@@ -186,11 +181,9 @@ const buyBox = async (req, res) => {
         },
         { new: true }
       )
-
       if (!push_new_box) {
         return res.status(404).json({ message: 'User not found🤨' })
       }
-
       return res
         .status(201)
         .json({ message: 'You have a new BOX❤️', push_new_box })
