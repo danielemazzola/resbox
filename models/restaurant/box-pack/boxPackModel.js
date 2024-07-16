@@ -29,11 +29,13 @@ const boxSchema = mongoose.Schema(
     },
     name_box: {
       type: String,
-      required: true
+      required: true,
+      trim: true
     },
     description: {
       type: String,
-      required: true
+      required: true,
+      trim: true
     },
     items_included: {
       type: Number,

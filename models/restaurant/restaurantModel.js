@@ -5,19 +5,23 @@ const restaurantSchema = mongoose.Schema(
   {
     restaurant_name: {
       type: String,
-      required: true
+      required: true,
+      trim: true
     },
     restaurant_cif: {
       type: String,
-      required: true
+      required: true,
+      trim: true
     },
     owner_name: {
       type: String,
-      required: true
+      required: true,
+      trim: true
     },
     owner_lastName: {
       type: String,
-      required: true
+      required: true,
+      trim: true
     },
     phone: {
       type: String,
