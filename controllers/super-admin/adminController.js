@@ -1,5 +1,5 @@
 const bcrypt = require('bcrypt')
-const Admin = require('../../models/crm/adminModel')
+const Admin = require('../../models/admin/adminModel')
 const { generateJWT } = require('../../helpers/generateJWT')
 const { generateToken } = require('../../helpers/generateToken')
 const { deleteImg } = require('../../middleware/deleteImage')

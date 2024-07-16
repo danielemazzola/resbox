@@ -33,7 +33,7 @@ APP.use(CORS())
 // END CORS
 
 // ROUTERS
-const adminRouter = require('./routes/crm-routes/adminRouter')
+const adminRouter = require('./routes/super-admin-routes/adminRouter')
 APP.use('/api/v1/secure/admin', adminRouter)
 
 const userRouter = require('./routes/customer-routes/userRouter')

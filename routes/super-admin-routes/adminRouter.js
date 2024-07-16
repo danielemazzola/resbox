@@ -3,7 +3,7 @@ const { profileAvatar } = require('../../middleware/uploadImage')
 const {
   tokenRecoveryPasswordAdmin
 } = require('../../middleware/tokenRecoveryPassword')
-const { isAuth } = require('../../middleware/isAuth')
+const { isAuthSuperAdmin } = require('../../middleware/isAuth')
 const {
   create,
   recoverPassword,
@@ -11,22 +11,22 @@ const {
   login,
   profile,
   updateAvatar
-} = require('../../controllers/CRM-SUPER-ADMIN/adminController')
+} = require('../../controllers/super-admin/adminController')
 const {
   newRestaurant,
   confirmAccountrestaurant,
   updateRolesUserRestaurant
-} = require('../../controllers/CRM-SUPER-ADMIN/restaurantController')
+} = require('../../controllers/super-admin/restaurantController')
 const { uploadFile } = require('../../middleware/uploadFile')
 
 ROUTER.post('/register-admin', create) // NEW ADMIN
 ROUTER.post('/recovery-password', recoverPassword) // RECOVER PASSWORD
 ROUTER.put('/recovery-password/:token', tokenRecoveryPasswordAdmin, newPassword) // RECOVER PASSWORD
 ROUTER.post('/login', login) // LOGIN
-ROUTER.get('/profile', isAuth, profile) // PROFILE ADMIN
+ROUTER.get('/profile', isAuthSuperAdmin, profile) // PROFILE ADMIN
 ROUTER.put(
   '/update-avatar',
-  isAuth,
+  isAuthSuperAdmin,
   profileAvatar.single('avatar'),
   updateAvatar
 ) //CHANGE AVATAR

@@ -1,7 +1,7 @@
 const ROUTER = require('express').Router()
 const { profileAvatar } = require('../../middleware/uploadImage')
 const {
-  tokenRecoveryPassword
+  tokenRecoveryPasswordRestaurant
 } = require('../../middleware/tokenRecoveryPassword')
 const {
   create,
@@ -11,16 +11,20 @@ const {
   profile,
   updateAvatar
 } = require('../../controllers/restaurant/userRestaurantController')
-const { isAuth } = require('../../middleware/isAuth')
+const { isAuthRestaurant } = require('../../middleware/isAuth')
 
-ROUTER.post('/register', create) // NEW USER
+ROUTER.post('/register/:restaurant', create) // NEW USER
 ROUTER.post('/recovery-password', recoverPassword) // RECOVER PASSWORD
-ROUTER.put('/recovery-password/:token', tokenRecoveryPassword, newPassword) // RECOVER PASSWORD
+ROUTER.put(
+  '/recovery-password/:token',
+  tokenRecoveryPasswordRestaurant,
+  newPassword
+) // RECOVER PASSWORD
 ROUTER.post('/login', login) // LOGIN
-ROUTER.get('/profile', isAuth, profile) // PROFILE USER
+ROUTER.get('/profile', isAuthRestaurant, profile) // PROFILE USER
 ROUTER.put(
   '/update-avatar',
-  isAuth,
+  isAuthRestaurant,
   profileAvatar.single('avatar'),
   updateAvatar
 ) // CHANGE AVATAR

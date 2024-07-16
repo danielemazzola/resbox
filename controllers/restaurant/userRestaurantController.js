@@ -1,5 +1,6 @@
 const bcrypt = require('bcrypt')
 const UserRestaurant = require('../../models/restaurant/UserRestaurantModel')
+const Restaurant = require('../../models/restaurant/restaurantModel')
 const { generateJWT } = require('../../helpers/generateJWT')
 const { generateToken } = require('../../helpers/generateToken')
 const { deleteImg } = require('../../middleware/deleteImage')
@@ -11,8 +12,11 @@ const {
 
 const create = async (req, res, next) => {
   const { restaurant } = req.params
-  const existeRestaurant = await UserRestaurant.findById(restaurant)
-  if (!existeRestaurant) return next()
+  const existeRestaurant = await Restaurant.findById(restaurant)
+  if (!existeRestaurant)
+    return res.status(409).json({
+      message: 'Restaurant does not exist, please contact the manager🔐'
+    })
   const email = req.body.email.toLowerCase()
   try {
     const duplicate = await UserRestaurant.findOne({ email })
@@ -21,7 +25,10 @@ const create = async (req, res, next) => {
         .status(409)
         .json({ message: 'Existing user, please try to log in😊' })
     }
-    const user = new UserRestaurant({ ...req.body, email })
+    const user = new UserRestaurant({
+      ...req.body,
+      restaurant_id: existeRestaurant._id
+    })
     await user.save()
     newUserEmail(user)
     return res
@@ -38,11 +45,13 @@ const login = async (req, res) => {
   const { password } = req.body
   const email = req.body.email.toLowerCase()
   try {
-    const data = await UserRestaurant.findOne({ email })
-    if (!data) return res.status(404).json({ message: 'User not found' })
-    if (bcrypt.compareSync(password, data.password)) {
-      const token = generateJWT(data._id)
-      return res.status(200).json({ data, token })
+    const user = await UserRestaurant.findOne({ email }).populate(
+      'restaurant_id'
+    )
+    if (!user) return res.status(404).json({ message: 'User not found' })
+    if (bcrypt.compareSync(password, user.password)) {
+      const token = generateJWT(user._id)
+      return res.status(200).json({ user, token })
     } else {
       return res.status(409).json({ message: 'Conflict with password' })
     }
@@ -74,6 +83,7 @@ const recoverPassword = async (req, res) => {
 }
 const newPassword = async (req, res) => {
   const { token } = req.params
+  console.log(token)
   try {
     const user = await UserRestaurant.findOne({ token })
     if (!user)
@@ -81,6 +91,7 @@ const newPassword = async (req, res) => {
         message: 'Token invalid. Please check your email to try again😢'
       })
     const { password } = req.body
+
     user.password = password
     user.token = ''
     await user.save()
@@ -99,8 +110,8 @@ const newPassword = async (req, res) => {
 const profile = async (req, res, next) => {
   try {
     const user = await UserRestaurant.findById(req.user._id)
-      .select('-password -createdAt -updatedAt -__v')
-      .populate('events')
+      .select('-password -__v')
+      .populate('restaurant_id')
     return res.status(200).json(user)
   } catch (error) {
     console.log(error)
