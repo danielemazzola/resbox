@@ -59,11 +59,15 @@ const login = async (req, res) => {
   const { password } = req.body
   const email = req.body.email.toLowerCase()
   try {
-    const data = await User.findOne({ email })
-    if (!data) return res.status(404).json({ message: 'User not found' })
-    if (bcrypt.compareSync(password, data.password)) {
-      const token = generateJWT(data._id)
-      return res.status(200).json({ data, token })
+    const user = await User.findOne({ email }).populate({
+      path: 'purchasedBoxes.box',
+      select: 'name_box status',
+      populate: [{ path: 'id_restaurant', select: 'restaurant_name' }]
+    })
+    if (!user) return res.status(404).json({ message: 'User not found' })
+    if (bcrypt.compareSync(password, user.password)) {
+      const token = generateJWT(user._id)
+      return res.status(200).json({ user, token })
     } else {
       return res.status(409).json({ message: 'Conflict with password' })
     }
@@ -179,7 +183,6 @@ const buyBox = async (req, res) => {
         },
         { new: true }
       )
-
       return res
         .status(200)
         .json({ message: 'Box updated successfully❤️', updateResult })
