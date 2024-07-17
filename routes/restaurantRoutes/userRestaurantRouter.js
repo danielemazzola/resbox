@@ -7,8 +7,7 @@ const {
   newPassword,
   login,
   profile,
-  updateAvatar,
-  createBox
+  updateAvatar
 } = require('../../controllers/restaurantController/userRestaurantController')
 const { isAuthRestaurant } = require('../../middleware/isAuth')
 
@@ -23,6 +22,5 @@ ROUTER.put(
   profileAvatar.single('avatar'),
   updateAvatar
 ) // CHANGE AVATAR
-ROUTER.post('/create-box', isAuthRestaurant, createBox) // CRETAE BOX
 
 module.exports = ROUTER

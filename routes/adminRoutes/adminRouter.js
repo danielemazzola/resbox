@@ -1,7 +1,7 @@
 const ROUTER = require('express').Router()
 const { profileAvatar } = require('../../middleware/uploadImage')
-const { existTokenAdmin } = require('../../middleware/tokenRecoveryPassword')
 const { isAuthSuperAdmin } = require('../../middleware/isAuth')
+const { existTokenAdmin } = require('../../middleware/existToken')
 const {
   create,
   recoverPassword,
