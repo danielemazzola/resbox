@@ -146,7 +146,7 @@ const updateAvatar = async (req, res) => {
       user._id,
       { $set: { avatar: req.body.image } },
       { new: true }
-    ).select('-password -createdAt -updatedAt -__v -token')
+    ).select('-password -__v -token')
     return res.status(201).json({ message: 'User update', updateAvatar })
   } catch (error) {
     console.log(error)
@@ -159,14 +159,11 @@ const updateAvatar = async (req, res) => {
 const buyBox = async (req, res) => {
   const { user } = req
   const { box } = req
-
+  let updateResult
   try {
     const existBox = user.purchasedBoxes.find(
       (userBox) => userBox.box.toString() === box._id.toString()
     )
-
-    let updateResult
-
     if (existBox) {
       updateResult = await User.findOneAndUpdate(
         { _id: user._id, 'purchasedBoxes.box': box._id },

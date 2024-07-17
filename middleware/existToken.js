@@ -2,7 +2,7 @@ const Admin = require('../models/adminModel/adminModel')
 const User = require('../models/customerModel/userModel')
 const UserRestaurant = require('../models/restaurantModel/UserRestaurantModel')
 
-const tokenRecoveryPasswordUser = async (req, res, next) => {
+const existTokenUser = async (req, res, next) => {
   const { token } = req.params
   try {
     const user = await User.findOne({ token })
@@ -21,7 +21,7 @@ const tokenRecoveryPasswordUser = async (req, res, next) => {
       .json({ message: 'Ups, there was a problem, please try again😑' })
   }
 }
-const tokenRecoveryPasswordRestaurant = async (req, res, next) => {
+const existTokenRestaurant = async (req, res, next) => {
   const { token } = req.params
   try {
     const user = await UserRestaurant.findOne({ token })
@@ -41,7 +41,7 @@ const tokenRecoveryPasswordRestaurant = async (req, res, next) => {
   }
 }
 
-const tokenRecoveryPasswordAdmin = async (req, res, next) => {
+const existTokenAdmin = async (req, res, next) => {
   const { token } = req.params
   try {
     const admin = await Admin.findOne({ token })
@@ -62,7 +62,7 @@ const tokenRecoveryPasswordAdmin = async (req, res, next) => {
 }
 
 module.exports = {
-  tokenRecoveryPasswordUser,
-  tokenRecoveryPasswordRestaurant,
-  tokenRecoveryPasswordAdmin
+  existTokenUser,
+  existTokenRestaurant,
+  existTokenAdmin
 }

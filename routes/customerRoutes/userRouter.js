@@ -1,8 +1,6 @@
 const ROUTER = require('express').Router()
 const { profileAvatar } = require('../../middleware/uploadImage')
-const {
-  tokenRecoveryPasswordUser
-} = require('../../middleware/tokenRecoveryPassword')
+const { existTokenUser } = require('../../middleware/existToken')
 const { isAuthUser } = require('../../middleware/isAuth')
 const { existBox } = require('../../middleware/existBox')
 const {
@@ -19,7 +17,7 @@ const {
 ROUTER.post('/register', create) // NEW USER
 ROUTER.put('/confirm-account/:id_user', confirmAccount) // CONFIRM - ACCOUNT
 ROUTER.post('/recovery-password', recoverPassword) // RECOVER PASSWORD
-ROUTER.put('/recovery-password/:token', tokenRecoveryPasswordUser, newPassword) // RECOVER PASSWORD
+ROUTER.put('/recovery-password/:token', existTokenUser, newPassword) // RECOVER PASSWORD
 ROUTER.post('/login', login) // LOGIN
 ROUTER.get('/profile', isAuthUser, profile) // PROFILE USER
 ROUTER.put(

@@ -1,8 +1,6 @@
 const ROUTER = require('express').Router()
 const { profileAvatar } = require('../../middleware/uploadImage')
-const {
-  tokenRecoveryPasswordAdmin
-} = require('../../middleware/tokenRecoveryPassword')
+const { existTokenAdmin } = require('../../middleware/tokenRecoveryPassword')
 const { isAuthSuperAdmin } = require('../../middleware/isAuth')
 const {
   create,
@@ -21,7 +19,7 @@ const { uploadFile } = require('../../middleware/uploadFile')
 
 ROUTER.post('/register-admin', create) // NEW ADMIN
 ROUTER.post('/recovery-password', recoverPassword) // RECOVER PASSWORD
-ROUTER.put('/recovery-password/:token', tokenRecoveryPasswordAdmin, newPassword) // RECOVER PASSWORD
+ROUTER.put('/recovery-password/:token', existTokenAdmin, newPassword) // RECOVER PASSWORD
 ROUTER.post('/login', login) // LOGIN
 ROUTER.get('/profile', isAuthSuperAdmin, profile) // PROFILE ADMIN
 ROUTER.put(
