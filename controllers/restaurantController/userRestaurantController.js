@@ -29,9 +29,11 @@ const create = async (req, res, next) => {
     const user = new UserRestaurant({
       ...req.body,
       email,
-      restaurant_id: existeRestaurant._id
+      id_restaurant: existeRestaurant._id
     })
     await user.save()
+    existeRestaurant.users.push(user._id)
+    await existeRestaurant.save()
     newUserEmail(user)
     return res
       .status(201)
@@ -47,9 +49,32 @@ const login = async (req, res) => {
   const { password } = req.body
   const email = req.body.email.toLowerCase()
   try {
-    const user = await UserRestaurant.findOne({ email }).populate(
-      'restaurant_id'
-    )
+    const user = await UserRestaurant.findOne({ email }).populate({
+      path: 'id_restaurant',
+      populate: [
+        {
+          path: 'users',
+          select: 'name lastname email avatar roles'
+        },
+        {
+          path: 'boxes',
+          populate: [
+            {
+              path: 'creator',
+              select: 'name lastname email avatar roles'
+            },
+            {
+              path: 'items_acquired_by.user',
+              select: 'name lastname'
+            },
+            {
+              path: 'items_acquired_by.box',
+              select: 'name description status'
+            }
+          ]
+        }
+      ]
+    })
     if (!user) return res.status(404).json({ message: 'User not found' })
     if (bcrypt.compareSync(password, user.password)) {
       const token = generateJWT(user._id)
@@ -107,7 +132,32 @@ const profile = async (req, res, next) => {
   try {
     const user = await UserRestaurant.findById(req.user._id)
       .select('-password -__v')
-      .populate('restaurant_id')
+      .populate({
+        path: 'id_restaurant',
+        populate: [
+          {
+            path: 'users',
+            select: 'name lastname email avatar roles'
+          },
+          {
+            path: 'boxes',
+            populate: [
+              {
+                path: 'creator',
+                select: 'name lastname email avatar roles'
+              },
+              {
+                path: 'items_acquired_by.user',
+                select: 'name lastname'
+              },
+              {
+                path: 'items_acquired_by.box',
+                select: 'name description status'
+              }
+            ]
+          }
+        ]
+      })
     return res.status(200).json(user)
   } catch (error) {
     console.log(error)
@@ -150,6 +200,13 @@ const createBox = async (req, res) => {
       creator: user._id
     })
     await new_box.save()
+    const pushBoxRestaurant = await Restaurant.findByIdAndUpdate(
+      user.id_restaurant,
+      {
+        boxes: new_box._id
+      },
+      { new: true }
+    )
     return res
       .status(201)
       .json({ message: 'Box created successfully🤩', new_box })

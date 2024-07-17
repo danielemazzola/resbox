@@ -76,6 +76,12 @@ const restaurantSchema = mongoose.Schema(
         type: mongoose.Schema.Types.ObjectId,
         ref: 'UserRestaurant'
       }
+    ],
+    boxes: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Box'
+      }
     ]
   },
   {
