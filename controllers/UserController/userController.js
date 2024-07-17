@@ -119,9 +119,13 @@ const newPassword = async (req, res) => {
 
 const profile = async (req, res, next) => {
   try {
-    const user = await User.findById(req.user._id).select(
-      '-token -password -createdAt -updatedAt -__v'
-    )
+    const user = await User.findById(req.user._id)
+      .select('-token -password -createdAt -updatedAt -__v')
+      .populate({
+        path: 'purchasedBoxes.box',
+        select: 'name_box status',
+        populate: [{ path: 'id_restaurant', select: 'restaurant_name' }]
+      })
     return res.status(200).json(user)
   } catch (error) {
     console.log(error)
