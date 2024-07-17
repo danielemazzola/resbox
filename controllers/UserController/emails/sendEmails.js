@@ -65,7 +65,7 @@ const newUserEmail = async (user) => {
                 <p>Hola <strong>${user.name}</strong>,</p>
                 <p>¡Gracias por unirte a nuestra plataforma de RES-BOX!</p>
                 <p>¡Antes de continuar, es necesario que confirmes que eres tu!</p>
-                <p><a href="${process.env.FRONTEND_URL_IP}/confirm-account/${user.email}" class="button">¡SOY YO😊!</a></p>
+                <p><a href="${process.env.FRONTEND_URL_IP}/confirm-account/${user._id}" class="button">¡SOY YO😊!</a></p>
                 <p>Estamos emocionados de tenerte con nosotros y esperamos que disfrutes de todas las experiencias y promociones que ofrecemos.</p>
                 <p>Si tienes alguna pregunta o necesitas ayuda, no dudes en ponerte en contacto con nosotros.</p>
                 <p>¡Bienvenido a la comunidad!</p>

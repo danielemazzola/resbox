@@ -17,7 +17,7 @@ const {
 } = require('../../controllers/userController/userController')
 
 ROUTER.post('/register', create) // NEW USER
-ROUTER.put('/confirm-account/:email', confirmAccount) // CONFIRM - ACCOUNT
+ROUTER.put('/confirm-account/:id_user', confirmAccount) // CONFIRM - ACCOUNT
 ROUTER.post('/recovery-password', recoverPassword) // RECOVER PASSWORD
 ROUTER.put('/recovery-password/:token', tokenRecoveryPasswordUser, newPassword) // RECOVER PASSWORD
 ROUTER.post('/login', login) // LOGIN

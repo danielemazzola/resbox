@@ -34,9 +34,9 @@ const create = async (req, res, next) => {
   }
 }
 const confirmAccount = async (req, res) => {
-  const email = req.params.email.toLowerCase()
+  const { id_user } = req.params
   try {
-    const exist = await User.findOne({ email })
+    const exist = await User.findById(id_user)
     if (!exist) return res.status(404).json({ message: 'User not found' })
     if (exist.confirmed)
       return res
