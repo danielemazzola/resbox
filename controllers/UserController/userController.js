@@ -120,7 +120,7 @@ const newPassword = async (req, res) => {
 const profile = async (req, res, next) => {
   try {
     const user = await User.findById(req.user._id)
-      .select('-token -password -createdAt -updatedAt -__v')
+      .select('-token -password -__v')
       .populate({
         path: 'purchasedBoxes.box',
         select: 'name_box status',
