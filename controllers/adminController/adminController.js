@@ -1,8 +1,8 @@
 const bcrypt = require('bcrypt')
-const Admin = require('../../models/admin/adminModel')
-const { generateJWT } = require('../../helpers/generateJWT')
-const { generateToken } = require('../../helpers/generateToken')
+const { generateJWT } = require('../../config/helpers/generateJWT')
+const { generateToken } = require('../../config/helpers/generateToken')
 const { deleteImg } = require('../../middleware/deleteImage')
+const Admin = require('../../models/adminModel/adminModel')
 const {
   newUserEmail,
   recoverEmail,

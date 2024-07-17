@@ -33,13 +33,13 @@ APP.use(CORS())
 // END CORS
 
 // ROUTERS
-const adminRouter = require('./routes/super-admin-routes/adminRouter')
+const adminRouter = require('./routes/adminRoutes/adminRouter')
 APP.use('/api/v1/secure/admin', adminRouter)
 
-const userRouter = require('./routes/customer-routes/userRouter')
+const userRouter = require('./routes/customerRoutes/userRouter')
 APP.use('/api/v1/user', userRouter)
 
-const userRestaurantRouter = require('./routes/restaurant-routes/userRestaurantRouter')
+const userRestaurantRouter = require('./routes/restaurantRoutes/userRestaurantRouter')
 APP.use('/api/v1/restaurant/user', userRestaurantRouter)
 
 APP.get('*', (req, res, next) => {

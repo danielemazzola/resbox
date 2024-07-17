@@ -11,7 +11,7 @@ const {
   profile,
   updateAvatar,
   createBox
-} = require('../../controllers/restaurant/userRestaurantController')
+} = require('../../controllers/restaurantController/userRestaurantController')
 const { isAuthRestaurant } = require('../../middleware/isAuth')
 
 ROUTER.post('/register/:restaurant', create) // NEW USER

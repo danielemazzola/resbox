@@ -1,6 +1,6 @@
-const Admin = require('../models/admin/adminModel')
-const User = require('../models/customer/userModel')
-const UserRestaurant = require('../models/restaurant/UserRestaurantModel')
+const Admin = require('../models/adminModel/adminModel')
+const User = require('../models/customerModel/userModel')
+const UserRestaurant = require('../models/restaurantModel/UserRestaurantModel')
 
 const tokenRecoveryPasswordUser = async (req, res, next) => {
   const { token } = req.params

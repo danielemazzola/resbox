@@ -51,7 +51,7 @@ const userSchema = new mongoose.Schema(
       type: Boolean,
       default: false
     },
-    purchasedBoxes: [purchasedBoxSchema] // Usar el esquema separado aquí
+    purchasedBoxes: [purchasedBoxSchema]
   },
   {
     timestamps: true,

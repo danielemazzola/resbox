@@ -11,12 +11,12 @@ const {
   login,
   profile,
   updateAvatar
-} = require('../../controllers/super-admin/adminController')
+} = require('../../controllers/adminController/adminController')
 const {
   newRestaurant,
   confirmAccountrestaurant,
   updateRolesUserRestaurant
-} = require('../../controllers/super-admin/restaurantController')
+} = require('../../controllers/adminController/restaurantController')
 const { uploadFile } = require('../../middleware/uploadFile')
 
 ROUTER.post('/register-admin', create) // NEW ADMIN

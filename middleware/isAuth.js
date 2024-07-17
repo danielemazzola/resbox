@@ -1,7 +1,7 @@
-const User = require('../models/customer/userModel')
-const UserRestaurant = require('../models/restaurant/UserRestaurantModel')
-const Admin = require('../models/admin/adminModel')
-const { verifyToken } = require('../helpers/generateJWT')
+const User = require('../models/customerModel/userModel')
+const UserRestaurant = require('../models/restaurantModel/UserRestaurantModel')
+const Admin = require('../models/adminModel/adminModel')
+const { verifyToken } = require('../config/helpers/generateJWT')
 
 const isAuthUser = async (req, res, next) => {
   const token = req.headers.authorization?.split(' ')[1]

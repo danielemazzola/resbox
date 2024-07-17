@@ -1,6 +1,6 @@
 let fs = require('fs')
 const xlsx = require('xlsx')
-const Restaurant = require('../../models/restaurant/restaurantModel')
+const Restaurant = require('../../models/restaurantModel/restaurantModel')
 
 const newRestaurant = async (req, res) => {
   let duplicateEmail = []

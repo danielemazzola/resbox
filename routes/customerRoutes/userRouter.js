@@ -14,7 +14,7 @@ const {
   profile,
   updateAvatar,
   buyBox
-} = require('../../controllers/UserController/userController')
+} = require('../../controllers/userController/userController')
 
 ROUTER.post('/register', create) // NEW USER
 ROUTER.put('/confirm-account/:email', confirmAccount) // CONFIRM - ACCOUNT

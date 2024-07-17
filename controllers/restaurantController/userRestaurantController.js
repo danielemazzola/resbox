@@ -1,15 +1,15 @@
 const bcrypt = require('bcrypt')
-const UserRestaurant = require('../../models/restaurant/UserRestaurantModel')
-const Restaurant = require('../../models/restaurant/restaurantModel')
-const { generateJWT } = require('../../helpers/generateJWT')
-const { generateToken } = require('../../helpers/generateToken')
+const UserRestaurant = require('../../models/restaurantModel/UserRestaurantModel')
+const Restaurant = require('../../models/restaurantModel/restaurantModel')
+const { generateJWT } = require('../../config/helpers/generateJWT')
+const { generateToken } = require('../../config/helpers/generateToken')
 const { deleteImg } = require('../../middleware/deleteImage')
 const {
   newUserEmail,
   recoverEmail,
   newPasswordEmail
 } = require('./emails/sendEmails')
-const Box = require('../../models/restaurant/box-pack/boxPackModel')
+const Box = require('../../models/restaurantModel/box-pack/boxPackModel')
 
 const create = async (req, res, next) => {
   const { restaurant } = req.params

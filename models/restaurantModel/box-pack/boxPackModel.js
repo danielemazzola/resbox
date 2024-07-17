@@ -1,6 +1,24 @@
 const mongoose = require('mongoose')
 
-const boxSchema = mongoose.Schema(
+const acquisitionSchema = new mongoose.Schema(
+  {
+    user: {
+      type: mongoose.Types.ObjectId,
+      ref: 'User',
+      required: true
+    },
+    box: {
+      type: mongoose.Types.ObjectId,
+      ref: 'Box',
+      required: true
+    }
+  },
+  {
+    timestamps: true
+  }
+)
+
+const boxSchema = new mongoose.Schema(
   {
     id_restaurant: {
       type: mongoose.Types.ObjectId,
@@ -43,7 +61,8 @@ const boxSchema = mongoose.Schema(
         type: mongoose.Types.ObjectId,
         ref: 'UserRestaurant'
       }
-    ]
+    ],
+    items_acquired_by: [acquisitionSchema]
   },
   {
     timestamps: true,

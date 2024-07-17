@@ -1,14 +1,15 @@
 const bcrypt = require('bcrypt')
-const { generateJWT } = require('../../helpers/generateJWT')
-const { generateToken } = require('../../helpers/generateToken')
+const { generateJWT } = require('../../config/helpers/generateJWT')
+const { generateToken } = require('../../config/helpers/generateToken')
 const { deleteImg } = require('../../middleware/deleteImage')
 
-const User = require('../../models/customer/userModel')
+const User = require('../../models/customerModel/userModel')
 const {
   newUserEmail,
   recoverEmail,
   newPasswordEmail
 } = require('./emails/sendEmails')
+const Box = require('../../models/restaurantModel/box-pack/boxPackModel')
 
 const create = async (req, res, next) => {
   const email = req.body.email.toLowerCase()
@@ -150,26 +151,40 @@ const updateAvatar = async (req, res) => {
 const buyBox = async (req, res) => {
   const { user } = req
   const { box } = req
+
   try {
     const existBox = user.purchasedBoxes.find(
       (userBox) => userBox.box.toString() === box._id.toString()
     )
+
+    let updateResult
+
     if (existBox) {
-      const update_box = await User.findOneAndUpdate(
+      updateResult = await User.findOneAndUpdate(
         { _id: user._id, 'purchasedBoxes.box': box._id },
         {
           $inc: { 'purchasedBoxes.$.remainingItems': box.usage_limit }
         },
         { new: true }
       )
-      if (!update_box) {
+
+      if (!updateResult) {
         return res.status(404).json({ message: 'User not found🤨' })
       }
+
+      await Box.findByIdAndUpdate(
+        box._id,
+        {
+          $push: { items_acquired_by: { user: user._id, box: box._id } }
+        },
+        { new: true }
+      )
+
       return res
         .status(200)
-        .json({ message: 'Box updated successfully❤️', update_box })
+        .json({ message: 'Box updated successfully❤️', updateResult })
     } else {
-      const push_new_box = await User.findByIdAndUpdate(
+      updateResult = await User.findByIdAndUpdate(
         user._id,
         {
           $push: {
@@ -181,12 +196,22 @@ const buyBox = async (req, res) => {
         },
         { new: true }
       )
-      if (!push_new_box) {
+
+      if (!updateResult) {
         return res.status(404).json({ message: 'User not found🤨' })
       }
+
+      await Box.findByIdAndUpdate(
+        box._id,
+        {
+          $push: { items_acquired_by: { user: user._id, box: box._id } }
+        },
+        { new: true }
+      )
+
       return res
         .status(201)
-        .json({ message: 'You have a new BOX❤️', push_new_box })
+        .json({ message: 'You have a new BOX❤️', updateResult })
     }
   } catch (error) {
     console.log(error)
