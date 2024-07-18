@@ -1,4 +1,5 @@
 const bcrypt = require('bcrypt')
+const { isAdmin } = require('./helpers/isAdmin')
 const UserRestaurant = require('../../models/restaurantModel/UserRestaurantModel')
 const Restaurant = require('../../models/restaurantModel/restaurantModel')
 const { deleteImg } = require('../../middleware/deleteImage')
@@ -9,8 +10,6 @@ const {
   recoverEmail,
   newPasswordEmail
 } = require('./emails/sendEmails')
-const Box = require('../../models/restaurantModel/box-pack/boxPackModel')
-const { isAdmin } = require('./helpers/isAdmin')
 
 const create = async (req, res, next) => {
   const { restaurant } = req.params
