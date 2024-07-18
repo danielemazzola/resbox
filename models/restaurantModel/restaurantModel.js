@@ -76,7 +76,15 @@ const restaurantSchema = mongoose.Schema(
         type: mongoose.Schema.Types.ObjectId,
         ref: 'UserRestaurant'
       }
-    ]
+    ],
+    rating: {
+      type: Number,
+      default: 0
+    },
+    ratingCount: {
+      type: Number,
+      default: 0
+    }
   },
   {
     timestamps: true,

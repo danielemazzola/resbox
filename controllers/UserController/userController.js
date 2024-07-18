@@ -2,7 +2,6 @@ const bcrypt = require('bcrypt')
 const { generateJWT } = require('../../config/helpers/generateJWT')
 const { generateToken } = require('../../config/helpers/generateToken')
 const { deleteImg } = require('../../middleware/deleteImage')
-
 const User = require('../../models/customerModel/userModel')
 const {
   newUserEmail,
@@ -172,11 +171,9 @@ const buyBox = async (req, res) => {
         },
         { new: true }
       )
-
       if (!updateResult) {
         return res.status(404).json({ message: 'User not found🤨' })
       }
-
       await Box.findByIdAndUpdate(
         box._id,
         {
@@ -200,11 +197,9 @@ const buyBox = async (req, res) => {
         },
         { new: true }
       )
-
       if (!updateResult) {
         return res.status(404).json({ message: 'User not found🤨' })
       }
-
       await Box.findByIdAndUpdate(
         box._id,
         {

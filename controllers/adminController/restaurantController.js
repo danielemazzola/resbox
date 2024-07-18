@@ -14,7 +14,6 @@ const newRestaurant = async (req, res) => {
 
     const processRestaurant = async (restaurant) => {
       const { email } = restaurant
-
       try {
         const exist = await Restaurant.findOne({ email })
         if (!exist) {
@@ -42,9 +41,7 @@ const newRestaurant = async (req, res) => {
         )
       }
     }
-
     await Promise.all(dataFile.map(processRestaurant))
-
     res
       .status(200)
       .send({ message: 'The file was processed successfully.', duplicateEmail })

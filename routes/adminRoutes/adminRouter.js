@@ -30,7 +30,12 @@ ROUTER.put(
 ) //CHANGE AVATAR
 
 // RESTAURANT CONTROLLER
-ROUTER.post('/create-restaurant', uploadFile.single('file'), newRestaurant) // CRETAE RESTAURANT
+ROUTER.post(
+  '/create-restaurant',
+  isAuthSuperAdmin,
+  uploadFile.single('file'),
+  newRestaurant
+) // CRETAE RESTAURANT
 ROUTER.post('/create-restaurant', confirmAccountrestaurant) // CONFIRM ACCOUNT RESTAURANT
 ROUTER.post('/create-restaurant', updateRolesUserRestaurant) // UPDATE ROLES USERS RESTAURANT
 
