@@ -10,6 +10,7 @@ const {
   newPasswordEmail
 } = require('./emails/sendEmails')
 const Box = require('../../models/restaurantModel/box-pack/boxPackModel')
+const { isAdmin } = require('./helpers/isAdmin')
 
 const create = async (req, res, next) => {
   const { restaurant } = req.params
@@ -78,7 +79,8 @@ const login = async (req, res) => {
     if (!user) return res.status(404).json({ message: 'User not found' })
     if (bcrypt.compareSync(password, user.password)) {
       const token = generateJWT(user._id)
-      return res.status(200).json({ user, token })
+      const userResponse = isAdmin(user) // IS ADMIN RETURN NUMBER OF BANK
+      return res.status(200).json({ user: userResponse, token })
     } else {
       return res.status(409).json({ message: 'Conflict with password' })
     }
@@ -158,7 +160,8 @@ const profile = async (req, res, next) => {
           }
         ]
       })
-    return res.status(200).json(user)
+    const userResponse = isAdmin(user) // IS ADMIN RETURN NUMBER OF BANK
+    return res.status(200).json({ user: userResponse })
   } catch (error) {
     console.log(error)
     return res
