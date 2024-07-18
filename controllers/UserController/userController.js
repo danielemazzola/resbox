@@ -9,7 +9,7 @@ const {
   recoverEmail,
   newPasswordEmail
 } = require('./emails/sendEmails')
-const Box = require('../../models/restaurantModel/box-pack/boxPackModel')
+const Box = require('../../models/adminModel/box-pack/boxPackModel')
 
 const create = async (req, res, next) => {
   const email = req.body.email.toLowerCase()

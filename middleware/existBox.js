@@ -1,4 +1,5 @@
-const Box = require('../models/restaurantModel/box-pack/boxPackModel')
+const Box = require('../models/adminModel/box-pack/boxPackModel')
+
 const existBox = async (req, res, next) => {
   const { id_box } = req.params
   try {

@@ -20,11 +20,6 @@ const acquisitionSchema = new mongoose.Schema(
 
 const boxSchema = new mongoose.Schema(
   {
-    id_restaurant: {
-      type: mongoose.Types.ObjectId,
-      ref: 'Restaurant',
-      required: true
-    },
     name_box: {
       type: String,
       required: true,
@@ -59,7 +54,7 @@ const boxSchema = new mongoose.Schema(
     creator: [
       {
         type: mongoose.Types.ObjectId,
-        ref: 'UserRestaurant'
+        ref: 'Admin'
       }
     ],
     items_acquired_by: [acquisitionSchema]
