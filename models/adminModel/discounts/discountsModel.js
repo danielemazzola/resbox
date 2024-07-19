@@ -1,29 +1,21 @@
 const mongoose = require('mongoose');
 
-const usedSchema = new mongoose.Schema(
-  {
-    restaurant_id: {
-      type: mongoose.Types.ObjectId,
-      ref: 'Restaurant',
-      required: false,
-    },
-    operation_id: {
-      type: mongoose.Types.ObjectId,
-      ref: 'Operation',
-      required: false,
-    },
-    user_id: {
-      type: mongoose.Types.ObjectId,
-      ref: 'User',
-      required: false,
-    },
-    used_at: {
-      type: Date,
-      default: Date.now,
-    },
+const usedSchema = new mongoose.Schema({
+  operation_id: {
+    type: mongoose.Types.ObjectId,
+    ref: 'Operation',
+    required: false,
   },
-  { _id: false }
-);
+  user_id: {
+    type: mongoose.Types.ObjectId,
+    ref: 'User',
+    required: false,
+  },
+  used_at: {
+    type: Date,
+    default: Date.now,
+  },
+});
 
 const discountSchema = mongoose.Schema(
   {

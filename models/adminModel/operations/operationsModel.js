@@ -25,6 +25,10 @@ const operationsSchema = mongoose.Schema(
       type: Date,
       default: Date.now,
     },
+    discount: {
+      type: mongoose.Types.ObjectId,
+      ref: 'Discount',
+    },
   },
   {
     timestamps: true,
