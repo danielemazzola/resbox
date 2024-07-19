@@ -58,9 +58,10 @@ const get_box = async (req, res, next) => {
 };
 
 const get_boxes = async (req, res) => {
-  const { box } = req;
   const { user } = req;
   try {
+    const boxes = await Box.find();
+    return res.status(200).json({ message: `${boxes.length === 0 ? 'There are no boxes😑' : 'All Boxes🤩'}`, boxes });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ message: 'Ups, there was a problem, please try again😑' });
