@@ -37,7 +37,7 @@ const adminRouter = require('./routes/adminRoutes/adminRouter');
 APP.use('/api/v1/secure/admin', adminRouter);
 
 const boxRouter = require('./routes/adminRoutes/boxRouter');
-APP.use('/api/v1/secure/admin/create-new-box', boxRouter);
+APP.use('/api/v1/secure/admin/box', boxRouter);
 
 const userRouter = require('./routes/customerRoutes/userRouter');
 APP.use('/api/v1/user', userRouter);

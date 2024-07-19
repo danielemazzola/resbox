@@ -128,6 +128,8 @@ const buyBox = async (req, res) => {
   const { box } = req;
   let updateResult;
   try {
+    const isActive_box = await Box.findById(box._id);
+    if (isActive_box.status.includes('inactive')) return res.status(409).json({ message: 'Box is inactive, sorry🥲' });
     const existBox = user.purchasedBoxes.find(userBox => userBox.box.toString() === box._id.toString());
     if (existBox) {
       updateResult = await User.findOneAndUpdate(

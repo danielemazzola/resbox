@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const User = require('../../customerModel/userModel');
 
 const acquisitionSchema = new mongoose.Schema(
   {
@@ -49,7 +50,7 @@ const boxSchema = new mongoose.Schema(
     status: {
       type: String,
       enum: ['active', 'inactive'],
-      default: 'active',
+      default: 'inactive',
     },
     creator: [
       {
