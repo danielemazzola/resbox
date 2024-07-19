@@ -70,7 +70,7 @@ const commentSchema = new mongoose.Schema(
       default: [],
     },
   },
-  { timestamps: true }
+  { timestamps: true, collection: 'Comment' }
 );
 
 const Comment = mongoose.model('Comment', commentSchema);

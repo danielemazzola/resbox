@@ -1,4 +1,23 @@
-const new_review = async (req, res) => {};
+const Restaurant = require('../../models/restaurantModel/restaurantModel');
+const Comment = require('../../models/reviewsCommentsModel/reviewCommentModels');
+
+const new_review = async (req, res) => {
+  const { id_restaurant } = req.params;
+  const { user } = req;
+  try {
+    const existRestaurant = await Restaurant.findById(id_restaurant);
+    if (!existRestaurant) return res.status(409).json({ message: 'Restaurant not found' });
+    const new_review = new Comment({
+      id_restaurant: existRestaurant._id,
+      id_user: user._id,
+    });
+    await new_review.save();
+    return res.status(201).json({ message: 'Review created successfully🤩. ¡Thank you!' });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: 'Ups, there was a problem, please try again😑' });
+  }
+};
 const new_comment = async (req, res) => {};
 const reactions = async (req, res) => {};
 
