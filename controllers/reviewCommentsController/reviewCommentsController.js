@@ -24,7 +24,28 @@ const new_review = async (req, res) => {
     return res.status(500).json({ message: 'Ups, there was a problem, please try again😑' });
   }
 };
-const new_comment = async (req, res) => {};
+const new_comment = async (req, res) => {
+  const { id_review } = req.params;
+  const { user } = req;
+  const { comment } = req.body;
+  try {
+    const review = await Comment.findByIdAndUpdate(
+      id_review,
+      {
+        replies: {
+          comment: comment,
+          id_user: user._id,
+        },
+      },
+      { new: true }
+    );
+    if (!review) return res.status(409).json({ message: 'Review not found🤨' });
+    return res.status(201).json({ message: 'Reply created successfully🤩', review });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: 'Ups, there was a problem, please try again😑' });
+  }
+};
 const reactions = async (req, res) => {};
 
 module.exports = { new_review, new_comment, reactions };

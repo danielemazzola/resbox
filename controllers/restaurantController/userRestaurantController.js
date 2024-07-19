@@ -46,23 +46,6 @@ const login = async (req, res) => {
           path: 'users',
           select: 'name lastname email avatar roles',
         },
-        {
-          path: 'boxes',
-          populate: [
-            {
-              path: 'creator',
-              select: 'name lastname email avatar roles',
-            },
-            {
-              path: 'items_acquired_by.user',
-              select: 'name lastname',
-            },
-            {
-              path: 'items_acquired_by.box',
-              select: 'name description status',
-            },
-          ],
-        },
       ],
     });
     if (!user) return res.status(404).json({ message: 'User not found' });
