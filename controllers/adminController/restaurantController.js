@@ -77,16 +77,17 @@ const updateRolesUserRestaurant = async (req, res) => {
   const { id_user } = req.params;
   try {
     const user = await UserRestaurant.findById(id_user);
-    const isAdmin = user.roles.find(admin => admin.includes('admin'));
-    if (!isAdmin) {
-      user.roles.push('admin');
-    } else {
-      user.roles.pop();
+    if (!user) {
+      return res.status(404).json({ message: 'User not found😢' });
     }
-    await user.save();
+    const update = user.roles.includes('admin') ? { $pull: { roles: 'admin' } } : { $push: { roles: 'admin' } };
+    const updatedUser = await UserRestaurant.findOneAndUpdate({ _id: id_user }, update, { new: true });
     return res
       .status(201)
-      .json({ message: `The user's role is: ${user.roles.includes('admin') ? 'admin' : 'user'}`, user: user.roles });
+      .json({
+        message: `The user's role is: ${updatedUser.roles.includes('admin') ? 'admin' : 'user'}`,
+        user: updatedUser.roles,
+      });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ message: 'Ups, there was a problem, please try again😑' });
