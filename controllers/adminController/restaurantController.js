@@ -51,36 +51,46 @@ const newRestaurant = async (req, res) => {
 
 const confirmAccountrestaurant = async (req, res) => {
   const { id_restaurant } = req.params;
-  const isConfirmed = await Restaurant.findById(id_restaurant);
-  const toggleConfirmed = await Restaurant.findByIdAndUpdate(
-    id_restaurant,
-    {
-      confirmed: !isConfirmed.confirmed,
-    },
-    { new: true }
-  );
-  if (!toggleConfirmed) {
-    return res.status(409).json({ message: 'Resturant not found, please contact with support😢' });
-  } else {
-    return res.status(201).json({
-      message: `Restaurant ${toggleConfirmed.confirmed ? 'confirmed' : 'not confirmed'}`,
-      toggleConfirmed,
-    });
+  try {
+    const isConfirmed = await Restaurant.findById(id_restaurant);
+    const toggleConfirmed = await Restaurant.findByIdAndUpdate(
+      id_restaurant,
+      {
+        confirmed: !isConfirmed.confirmed,
+      },
+      { new: true }
+    );
+    if (!toggleConfirmed) {
+      return res.status(409).json({ message: 'Resturant not found, please contact with support😢' });
+    } else {
+      return res.status(201).json({
+        message: `Restaurant ${toggleConfirmed.confirmed ? 'confirmed' : 'not confirmed'}`,
+        toggleConfirmed,
+      });
+    }
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: 'Ups, there was a problem, please try again😑' });
   }
 };
 const updateRolesUserRestaurant = async (req, res) => {
   const { id_user } = req.params;
-  const user = await UserRestaurant.findById(id_user);
-  const isAdmin = user.roles.find(admin => admin.includes('admin'));
-  if (!isAdmin) {
-    user.roles.push('admin');
-  } else {
-    user.roles.pop();
+  try {
+    const user = await UserRestaurant.findById(id_user);
+    const isAdmin = user.roles.find(admin => admin.includes('admin'));
+    if (!isAdmin) {
+      user.roles.push('admin');
+    } else {
+      user.roles.pop();
+    }
+    await user.save();
+    return res
+      .status(201)
+      .json({ message: `The user's role is: ${user.roles.includes('admin') ? 'admin' : 'user'}`, user: user.roles });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: 'Ups, there was a problem, please try again😑' });
   }
-  await user.save();
-  return res
-    .status(201)
-    .json({ message: `The user's role is: ${user.roles.includes('admin') ? 'admin' : 'user'}`, user: user.roles });
 };
 
 module.exports = {
