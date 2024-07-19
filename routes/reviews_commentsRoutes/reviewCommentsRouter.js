@@ -8,6 +8,6 @@ const { isAuthUser, isAuthRestaurant } = require('../../middleware/isAuth');
 
 ROUTER.post('/new-review/:id_restaurant', isAuthUser, new_review);
 ROUTER.put('/new-comment/:id_review', isAuthRestaurant, new_comment);
-ROUTER.post('/reaction', reactions);
+ROUTER.post('/reaction/:id_review', isAuthUser, reactions);
 
 module.exports = ROUTER;

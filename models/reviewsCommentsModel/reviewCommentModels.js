@@ -8,7 +8,7 @@ const replyCommentSchema = new mongoose.Schema(
       required: true,
       trim: true,
     },
-    id_user: {
+    id_user_restaurant: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
       required: true,
@@ -33,13 +33,13 @@ const reactionSchema = new mongoose.Schema(
     type: {
       type: String,
       enum: ['like', 'dislike'],
-      required: true,
+      required: false,
     },
   },
   { timestamps: true }
 );
 
-const commentSchema = new mongoose.Schema(
+const reviewSchema = new mongoose.Schema(
   {
     review: {
       type: String,
@@ -70,8 +70,8 @@ const commentSchema = new mongoose.Schema(
       default: [],
     },
   },
-  { timestamps: true, collection: 'Comment' }
+  { timestamps: true, collection: 'Review' }
 );
 
-const Comment = mongoose.model('Comment', commentSchema);
-module.exports = Comment;
+const Review = mongoose.model('Review', reviewSchema);
+module.exports = Review;

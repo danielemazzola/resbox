@@ -87,7 +87,7 @@ const restaurantSchema = mongoose.Schema(
     review: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Comment',
+        ref: 'Review',
       },
     ],
   },
