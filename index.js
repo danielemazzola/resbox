@@ -45,6 +45,9 @@ APP.use('/api/v1/user', userRouter);
 const userRestaurantRouter = require('./routes/restaurantRoutes/userRestaurantRouter');
 APP.use('/api/v1/restaurant/user', userRestaurantRouter);
 
+const reviewCommentsRouter = require('./routes/reviews_commentsRoutes/reviewCommentsRouter');
+APP.use('api/v1/review-comments', reviewCommentsRouter);
+
 APP.get('*', (req, res, next) => {
   const ERROR = 'URL NOT FOUND😢';
   next(ERROR);

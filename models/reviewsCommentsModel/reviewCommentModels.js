@@ -1,6 +1,7 @@
 const { default: mongoose } = require('mongoose');
 
-const replayCommentSchema = new mongoose.Schema(
+// REPLIES TO COMMENTS
+const replyCommentSchema = new mongoose.Schema(
   {
     comment: {
       type: String,
@@ -16,6 +17,23 @@ const replayCommentSchema = new mongoose.Schema(
       type: String,
       enum: ['active', 'deleted', 'hidden'],
       default: 'active',
+    },
+  },
+  { timestamps: true }
+);
+
+// LIKES - DISLIKES
+const reactionSchema = new mongoose.Schema(
+  {
+    id_user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+      required: true,
+    },
+    type: {
+      type: String,
+      enum: ['like', 'dislike'],
+      required: true,
     },
   },
   { timestamps: true }
@@ -44,20 +62,16 @@ const commentSchema = new mongoose.Schema(
       default: 'active',
     },
     replies: {
-      type: [replayCommentSchema],
+      type: [replyCommentSchema],
       default: [],
     },
-    likes: {
-      type: Number,
-      default: 0,
-    },
-    dislikes: {
-      type: Number,
-      default: 0,
+    reactions: {
+      type: [reactionSchema],
+      default: [],
     },
   },
   { timestamps: true }
 );
 
 const Comment = mongoose.model('Comment', commentSchema);
-module.exports = commentSchema;
+module.exports = Comment;
