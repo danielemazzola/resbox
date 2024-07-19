@@ -1,8 +1,8 @@
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
 
 const CONNECTDDBB = async () => {
   try {
-    await mongoose.connect(process.env.CONNECT_DDBB)
+    await mongoose.connect(process.env.CONNECT_DDBB);
     console.log(`
     **     **  ******   **      **  ******   ******
     ***   *** **    **  ***     ** **    ** **    **
@@ -11,9 +11,9 @@ const CONNECTDDBB = async () => {
     **     **/**      * **  **  **/** *****/**      *
     **     ** **    **  **   ** **/**    ** **    **
     **     **  ******   **    ****  *******  ****** 
-`)
+`);
   } catch (error) {
-    console.log(error)
+    console.log(error);
   }
-}
-module.exports = CONNECTDDBB
+};
+module.exports = CONNECTDDBB;

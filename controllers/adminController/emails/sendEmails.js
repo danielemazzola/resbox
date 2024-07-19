@@ -1,6 +1,6 @@
-const { sendMail } = require('../../../config/configEmail')
+const { sendMail } = require('../../../config/configEmail');
 
-const newUserEmail = async (user) => {
+const newUserEmail = async user => {
   const htmlContent = `
   <!DOCTYPE html>
   <html>
@@ -76,11 +76,11 @@ const newUserEmail = async (user) => {
             </div>
         </div>
     </body>
-    </html>`
-  await sendMail(user.email, `Bienvenido ${user.name}`, htmlContent)
-}
+    </html>`;
+  await sendMail(user.email, `Bienvenido ${user.name}`, htmlContent);
+};
 
-const recoverEmail = async (user) => {
+const recoverEmail = async user => {
   const htmlContent = `
     <!DOCTYPE html>
     <html>
@@ -156,11 +156,11 @@ const recoverEmail = async (user) => {
           </div>
       </div>
   </body>
-  </html>`
-  await sendMail(user.email, 'Recovery Password', htmlContent)
-}
+  </html>`;
+  await sendMail(user.email, 'Recovery Password', htmlContent);
+};
 
-const newPasswordEmail = async (user) => {
+const newPasswordEmail = async user => {
   const htmlContent = `<!DOCTYPE html>
     <html>
     <head>
@@ -221,12 +221,12 @@ const newPasswordEmail = async (user) => {
             </div>
         </div>
     </body>
-    </html>`
-  await sendMail(user.email, 'New Password', htmlContent)
-}
+    </html>`;
+  await sendMail(user.email, 'New Password', htmlContent);
+};
 
 module.exports = {
   newUserEmail,
   recoverEmail,
-  newPasswordEmail
-}
+  newPasswordEmail,
+};

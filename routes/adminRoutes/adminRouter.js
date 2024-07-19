@@ -1,42 +1,32 @@
-const ROUTER = require('express').Router()
-const { profileAvatar } = require('../../middleware/uploadImage')
-const { isAuthSuperAdmin } = require('../../middleware/isAuth')
-const { existTokenAdmin } = require('../../middleware/existToken')
+const ROUTER = require('express').Router();
+const { profileAvatar } = require('../../middleware/uploadImage');
+const { isAuthSuperAdmin } = require('../../middleware/isAuth');
+const { existTokenAdmin } = require('../../middleware/existToken');
 const {
   create,
   recoverPassword,
   newPassword,
   login,
   profile,
-  updateAvatar
-} = require('../../controllers/adminController/adminController')
+  updateAvatar,
+} = require('../../controllers/adminController/adminController');
 const {
   newRestaurant,
   confirmAccountrestaurant,
-  updateRolesUserRestaurant
-} = require('../../controllers/adminController/restaurantController')
-const { uploadFile } = require('../../middleware/uploadFile')
+  updateRolesUserRestaurant,
+} = require('../../controllers/adminController/restaurantController');
+const { uploadFile } = require('../../middleware/uploadFile');
 
-ROUTER.post('/register-admin', create) // NEW ADMIN
-ROUTER.post('/recovery-password', recoverPassword) // RECOVER PASSWORD
-ROUTER.put('/recovery-password/:token', existTokenAdmin, newPassword) // RECOVER PASSWORD
-ROUTER.post('/login', login) // LOGIN
-ROUTER.get('/profile', isAuthSuperAdmin, profile) // PROFILE ADMIN
-ROUTER.put(
-  '/update-avatar',
-  isAuthSuperAdmin,
-  profileAvatar.single('avatar'),
-  updateAvatar
-) //CHANGE AVATAR
+ROUTER.post('/register-admin', create); // NEW ADMIN
+ROUTER.post('/recovery-password', recoverPassword); // RECOVER PASSWORD
+ROUTER.put('/recovery-password/:token', existTokenAdmin, newPassword); // RECOVER PASSWORD
+ROUTER.post('/login', login); // LOGIN
+ROUTER.get('/profile', isAuthSuperAdmin, profile); // PROFILE ADMIN
+ROUTER.put('/update-avatar', isAuthSuperAdmin, profileAvatar.single('avatar'), updateAvatar); //CHANGE AVATAR
 
 // RESTAURANT CONTROLLER
-ROUTER.post(
-  '/create-restaurant',
-  isAuthSuperAdmin,
-  uploadFile.single('file'),
-  newRestaurant
-) // CRETAE RESTAURANT
-ROUTER.post('/create-restaurant', confirmAccountrestaurant) // CONFIRM ACCOUNT RESTAURANT
-ROUTER.post('/create-restaurant', updateRolesUserRestaurant) // UPDATE ROLES USERS RESTAURANT
+ROUTER.post('/create-restaurant', isAuthSuperAdmin, uploadFile.single('file'), newRestaurant); // CRETAE RESTAURANT
+ROUTER.put('/confirm-restaurant/:id_restaurant', isAuthSuperAdmin, confirmAccountrestaurant); // CONFIRM ACCOUNT RESTAURANT
+ROUTER.post('/update-roles-restaurant/:id_user', isAuthSuperAdmin, updateRolesUserRestaurant); // UPDATE ROLES USERS RESTAURANT
 
-module.exports = ROUTER
+module.exports = ROUTER;
