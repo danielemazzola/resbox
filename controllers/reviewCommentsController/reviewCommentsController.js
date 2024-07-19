@@ -12,7 +12,9 @@ const new_review = async (req, res) => {
       id_user: user._id,
     });
     await new_review.save();
-    return res.status(201).json({ message: 'Review created successfully🤩. ¡Thank you!' });
+    existRestaurant.review.push(new_review._id);
+    await existRestaurant.save();
+    return res.status(201).json({ message: 'Review created successfully🤩. ¡Thank you!', new_review });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ message: 'Ups, there was a problem, please try again😑' });

@@ -84,6 +84,12 @@ const restaurantSchema = mongoose.Schema(
       type: Number,
       default: 0,
     },
+    review: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Comment',
+      },
+    ],
   },
   {
     timestamps: true,
