@@ -52,6 +52,12 @@ const userSchema = new mongoose.Schema(
       default: false,
     },
     purchasedBoxes: [purchasedBoxSchema],
+    review: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Comment',
+      },
+    ],
   },
   {
     timestamps: true,
