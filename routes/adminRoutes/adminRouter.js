@@ -27,6 +27,6 @@ ROUTER.put('/update-avatar', isAuthSuperAdmin, profileAvatar.single('avatar'), u
 // RESTAURANT CONTROLLER
 ROUTER.post('/create-restaurant', isAuthSuperAdmin, uploadFile.single('file'), newRestaurant); // CRETAE RESTAURANT
 ROUTER.put('/confirm-restaurant/:id_restaurant', isAuthSuperAdmin, confirmAccountrestaurant); // CONFIRM ACCOUNT RESTAURANT
-ROUTER.post('/update-roles-restaurant/:id_user', isAuthSuperAdmin, updateRolesUserRestaurant); // UPDATE ROLES USERS RESTAURANT
+ROUTER.put('/update-roles-restaurant/:id_user', isAuthSuperAdmin, updateRolesUserRestaurant); // UPDATE ROLES USERS RESTAURANT
 
 module.exports = ROUTER;

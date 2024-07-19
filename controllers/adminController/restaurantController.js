@@ -1,6 +1,7 @@
 let fs = require('fs');
 const xlsx = require('xlsx');
 const Restaurant = require('../../models/restaurantModel/restaurantModel');
+const UserRestaurant = require('../../models/restaurantModel/UserRestaurantModel');
 
 const newRestaurant = async (req, res) => {
   let duplicateEmail = [];
@@ -67,7 +68,20 @@ const confirmAccountrestaurant = async (req, res) => {
     });
   }
 };
-const updateRolesUserRestaurant = async (req, res) => {};
+const updateRolesUserRestaurant = async (req, res) => {
+  const { id_user } = req.params;
+  const user = await UserRestaurant.findById(id_user);
+  const isAdmin = user.roles.find(admin => admin.includes('admin'));
+  if (!isAdmin) {
+    user.roles.push('admin');
+  } else {
+    user.roles.pop();
+  }
+  await user.save();
+  return res
+    .status(201)
+    .json({ message: `The user's role is: ${user.roles.includes('admin') ? 'admin' : 'user'}`, user: user.roles });
+};
 
 module.exports = {
   newRestaurant,
