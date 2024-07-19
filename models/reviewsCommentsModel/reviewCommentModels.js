@@ -41,7 +41,7 @@ const reactionSchema = new mongoose.Schema(
 
 const commentSchema = new mongoose.Schema(
   {
-    comment: {
+    review: {
       type: String,
       required: true,
       trim: true,

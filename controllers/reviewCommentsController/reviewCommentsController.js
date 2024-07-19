@@ -4,10 +4,12 @@ const Comment = require('../../models/reviewsCommentsModel/reviewCommentModels')
 const new_review = async (req, res) => {
   const { id_restaurant } = req.params;
   const { user } = req;
+  const { review } = req.body;
   try {
     const existRestaurant = await Restaurant.findById(id_restaurant);
     if (!existRestaurant) return res.status(409).json({ message: 'Restaurant not found' });
     const new_review = new Comment({
+      review: review,
       id_restaurant: existRestaurant._id,
       id_user: user._id,
     });
