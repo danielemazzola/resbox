@@ -58,6 +58,11 @@ const userSchema = new mongoose.Schema(
         ref: 'Review',
       },
     ],
+    status: {
+      type: [String],
+      enum: ['active', 'suspend'],
+      default: ['active'],
+    },
   },
   {
     timestamps: true,
