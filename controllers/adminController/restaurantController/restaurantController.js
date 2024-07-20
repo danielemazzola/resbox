@@ -1,7 +1,7 @@
 let fs = require('fs');
 const xlsx = require('xlsx');
-const Restaurant = require('../../models/restaurantModel/restaurantModel');
-const UserRestaurant = require('../../models/restaurantModel/UserRestaurantModel');
+const Restaurant = require('../../../models/restaurantModel/restaurantModel');
+const UserRestaurant = require('../../../models/restaurantModel/UserRestaurantModel');
 
 const newRestaurant = async (req, res) => {
   let duplicateEmail = [];
@@ -82,12 +82,10 @@ const updateRolesUserRestaurant = async (req, res) => {
     }
     const update = user.roles.includes('admin') ? { $pull: { roles: 'admin' } } : { $push: { roles: 'admin' } };
     const updatedUser = await UserRestaurant.findOneAndUpdate({ _id: id_user }, update, { new: true });
-    return res
-      .status(201)
-      .json({
-        message: `The user's role is: ${updatedUser.roles.includes('admin') ? 'admin' : 'user'}`,
-        user: updatedUser.roles,
-      });
+    return res.status(201).json({
+      message: `The user's role is: ${updatedUser.roles.includes('admin') ? 'admin' : 'user'}`,
+      user: updatedUser.roles,
+    });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ message: 'Ups, there was a problem, please try again😑' });

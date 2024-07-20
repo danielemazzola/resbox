@@ -33,18 +33,28 @@ APP.use(CORS());
 // END CORS
 
 // ROUTERS
+// ADMIN ROUTES
 const adminRouter = require('./routes/adminRoutes/adminRouter');
 APP.use('/api/v1/secure/admin', adminRouter);
 
 const boxRouter = require('./routes/adminRoutes/boxRouter');
 APP.use('/api/v1/secure/admin/box', boxRouter);
 
+const customerRouter = require('./routes/adminRoutes/customerRouter');
+APP.use('/api/v1/secure/admin/customer', customerRouter);
+
+const restaurantRouter = require('./routes/adminRoutes/restaurantRouter');
+APP.use('/api/v1/secure/admin/restaurant', restaurantRouter);
+
+// USERS "CUSTOMER" ROUTES
 const userRouter = require('./routes/customerRoutes/userRouter');
 APP.use('/api/v1/user', userRouter);
 
+// USERS RESTAURANT ROUTES
 const userRestaurantRouter = require('./routes/restaurantRoutes/userRestaurantRouter');
 APP.use('/api/v1/restaurant/user', userRestaurantRouter);
 
+// REVIEW AND COMMENTS ROUTES
 const reviewCommentsRouter = require('./routes/reviews_commentsRoutes/reviewCommentsRouter');
 APP.use('/api/v1/review-comments', reviewCommentsRouter);
 
