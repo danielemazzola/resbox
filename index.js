@@ -58,6 +58,10 @@ APP.use('/api/v1/restaurant/user', userRestaurantRouter);
 const reviewCommentsRouter = require('./routes/reviews_commentsRoutes/reviewCommentsRouter');
 APP.use('/api/v1/review-comments', reviewCommentsRouter);
 
+// OPERATION
+const operationRouter = require('./routes/operationRoutes/operationRoutes');
+APP.use('/api/v1/secure/operation', operationRouter);
+
 APP.get('*', (req, res, next) => {
   const ERROR = 'URL NOT FOUND😢';
   next(ERROR);

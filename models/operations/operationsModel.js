@@ -39,18 +39,30 @@ const operationsSchema = mongoose.Schema(
       type: Number,
       required: true,
     },
-    paid: { type: paidSchema },
+    paid: {
+      type: paidSchema,
+    },
     transaction_date: {
       type: Date,
       default: Date.now,
     },
+    secure_token: {
+      type: String,
+      trim: true,
+      required: true,
+    },
+    status: {
+      type: String,
+      enum: ['active', 'finish', 'cancelled'],
+      default: 'active',
+    },
   },
   {
     timestamps: true,
-    collection: 'Operations',
+    collection: 'Operation',
   }
 );
 
-const Operations = mongoose.model('Operations', operationsSchema);
+const Operation = mongoose.model('Operation', operationsSchema);
 
-module.exports = Operations;
+module.exports = Operation;
