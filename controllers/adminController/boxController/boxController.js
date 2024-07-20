@@ -9,7 +9,7 @@ const createBox = async (req, res) => {
       creator: user._id,
     });
     await new_box.save();
-    return res.status(201).json({ message: 'Box created successfully🤩', new_box });
+    return res.status(201).json({ message: 'Box created successfully🤩', box: new_box });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ message: 'Ups, there was a problem, please try again😑' });
@@ -20,6 +20,9 @@ const update_box = async (req, res) => {
   const { box } = req;
   const { user } = req;
   try {
+    const updateBox = await Box.findByIdAndUpdate(box._id, { $set: req.body }, { new: true });
+    if (!updateBox) return res.status(409).json({ message: 'Box not found😢' });
+    return res.status(201).json({ message: 'Update successfully❤️', box: updateBox });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ message: 'Ups, there was a problem, please try again😑' });
@@ -49,8 +52,9 @@ const remove_box = async (req, res) => {
 
 const get_box = async (req, res, next) => {
   const { box } = req;
-  const { user } = req;
   try {
+    const getBox = await Box.findById(box._id);
+    return res.status(200).json({ message: 'Box found🤩', box: getBox });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ message: 'Ups, there was a problem, please try again😑' });
