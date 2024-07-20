@@ -92,8 +92,34 @@ const updateRolesUserRestaurant = async (req, res) => {
   }
 };
 
+const getRestaurants = async (req, res) => {
+  try {
+    const restaurants = await Restaurant.find();
+    if (!restaurants) return res.status(409).json({ message: 'Restaurants not found' });
+    return res
+      .status(200)
+      .json({ message: `${restaurants.length === 0 ? 'There are not restaurants😢' : 'Restaurants🤩'}`, restaurants });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: 'Ups, there was a problem, please try again😑' });
+  }
+};
+const getRestaurant = async (req, res) => {
+  const { id_restaurant } = req.params;
+  try {
+    const restaurant = await Restaurant.findById(id_restaurant);
+    if (!restaurant) return res.status(404).json({ message: 'Restaurant not found😢' });
+    return res.status(200).json({ message: `Restaurant found🤩`, restaurant });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: 'Ups, there was a problem, please try again😑' });
+  }
+};
+
 module.exports = {
   newRestaurant,
   confirmAccountrestaurant,
   updateRolesUserRestaurant,
+  getRestaurants,
+  getRestaurant,
 };
