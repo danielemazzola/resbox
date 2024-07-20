@@ -42,6 +42,58 @@ const createOperation = async (req, res) => {
   }
 };
 
+const updateOperation = async (req, res) => {
+  const { operation } = req;
+  const { user } = req;
+  const { consumed, status } = req.body;
+
+  try {
+    let updatedOperation;
+    if (status.includes('finish')) {
+      updatedOperation = await Operation.findByIdAndUpdate(
+        operation._id,
+        {
+          id_restaurant: user.id_restaurant,
+          consumed: consumed,
+          secure_token: '',
+          status: 'finish',
+        },
+        { new: true }
+      );
+      if (!updatedOperation)
+        return res.status(409).json({
+          message: `Something went wrong, please contact support and provide the support number:${operation.secure_token}`,
+        });
+      return res.status(201).json({ message: 'Operation successfully🤩', operation: updatedOperation });
+    } else if (status.includes('cancelled')) {
+      updatedOperation = await Operation.findByIdAndUpdate(
+        operation._id,
+        {
+          id_restaurant: user.id_restaurant,
+          secure_token: '',
+          status: 'cancelled',
+        },
+        { new: true }
+      );
+      if (!updatedOperation)
+        return res.status(409).json({
+          message: `Something went wrong, please contact support and provide the support number:${operation.secure_token}`,
+        });
+      const customer = await User.findById(updatedOperation.id_user);
+      const box_customer = customer.purchasedBoxes.find(
+        box => box._id.toString() === updatedOperation.id_box.toString()
+      );
+      box_customer.remainingItems += updatedOperation.consumed;
+      await customer.save();
+
+      return res.status(201).json({ message: 'Operation cancelled😢', operation: updatedOperation });
+    }
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: 'Ups, there was a problem, please try again😑' });
+  }
+};
 module.exports = {
   createOperation,
+  updateOperation,
 };

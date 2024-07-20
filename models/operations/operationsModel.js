@@ -49,7 +49,6 @@ const operationsSchema = mongoose.Schema(
     secure_token: {
       type: String,
       trim: true,
-      required: true,
     },
     status: {
       type: String,
