@@ -1,4 +1,5 @@
 const { generateToken } = require('../../config/helpers/generateToken');
+const User = require('../../models/customerModel/userModel');
 const Operation = require('../../models/operations/operationsModel');
 
 const createOperation = async (req, res) => {
@@ -28,6 +29,8 @@ const createOperation = async (req, res) => {
         secure_token: token,
       });
       await newOperation.save();
+      userBox.remainingItems -= Number(consumed);
+      await user.save();
       return res.status(201).json({
         message: `Please click here to generate your QR Code 🤩`,
         code: `${process.env.FRONTEND_URL_IP}/box/${id_box}/generate-qr-code/${token}`,

@@ -13,6 +13,13 @@ const purchasedBoxSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
+    id_restaurant_consumed: [
+      {
+        type: mongoose.Types.ObjectId,
+        ref: 'Restaurant',
+        required: true,
+      },
+    ],
   },
   { timestamps: true }
 );
