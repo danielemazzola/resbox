@@ -28,7 +28,6 @@ const operationsSchema = mongoose.Schema(
     id_restaurant: {
       type: mongoose.Types.ObjectId,
       ref: 'User',
-      required: true,
     },
     id_box: {
       type: mongoose.Types.ObjectId,

@@ -7,7 +7,7 @@ const createOperation = async (req, res) => {
   const { consumed } = req.body;
   const { id_box } = req.params;
   try {
-    const userBox = user.purchasedBoxes.find(box => box._id.toString() === id_box.toString());
+    const userBox = user.purchasedBoxes.find(arr => arr.box.toString() === id_box.toString());
     if (!userBox)
       return res.status(404).json({
         message: `You don't have access to this Box, sorry 🥲, but you can purchase it by clicking here: ${process.env.FRONTEND_URL_IP}/box/${id_box}`,
@@ -16,7 +16,7 @@ const createOperation = async (req, res) => {
       return res.status(400).json({
         message: `You have exceeded the limit 😅. but you can reload it by clicking here: ${process.env.FRONTEND_URL_IP}/box/${id_box}`,
       });
-    } else if (Number(consumed) > userBox.remainingItems) {
+    } else if (consumed > userBox.remainingItems) {
       return res.status(400).json({
         message: `You don't have enough credits for this order🤔, we suggest reloading by clicking here: ${process.env.FRONTEND_URL_IP}/box/${id_box}`,
       });
@@ -29,7 +29,7 @@ const createOperation = async (req, res) => {
         secure_token: token,
       });
       await newOperation.save();
-      userBox.remainingItems -= Number(consumed);
+      userBox.remainingItems -= consumed;
       await user.save();
       return res.status(201).json({
         message: `Please click here to generate your QR Code 🤩`,
@@ -46,9 +46,12 @@ const updateOperation = async (req, res) => {
   const { operation } = req;
   const { user } = req;
   const { consumed, status } = req.body;
-
   try {
     let updatedOperation;
+    const customer = await User.findById(operation.id_user);
+    let updatePurchasedCustomer = customer.purchasedBoxes.find(
+      arr => arr.box.toString() === operation.id_box.toString()
+    );
     if (status.includes('finish')) {
       updatedOperation = await Operation.findByIdAndUpdate(
         operation._id,
@@ -64,6 +67,9 @@ const updateOperation = async (req, res) => {
         return res.status(409).json({
           message: `Something went wrong, please contact support and provide the support number:${operation.secure_token}`,
         });
+
+      updatePurchasedCustomer.id_restaurant_consumed = user._id;
+      await customer.save();
       return res.status(201).json({ message: 'Operation successfully🤩', operation: updatedOperation });
     } else if (status.includes('cancelled')) {
       updatedOperation = await Operation.findByIdAndUpdate(
@@ -79,15 +85,12 @@ const updateOperation = async (req, res) => {
         return res.status(409).json({
           message: `Something went wrong, please contact support and provide the support number:${operation.secure_token}`,
         });
-      const customer = await User.findById(updatedOperation.id_user);
-      const box_customer = customer.purchasedBoxes.find(
-        box => box._id.toString() === updatedOperation.id_box.toString()
-      );
-      box_customer.remainingItems += updatedOperation.consumed;
+      updatePurchasedCustomer.remainingItems += updatedOperation.consumed;
       await customer.save();
 
       return res.status(201).json({ message: 'Operation cancelled😢', operation: updatedOperation });
-    }
+    } else if (!status.includes('cancelled', 'finish'))
+      return res.status(409).json({ message: 'please refresh window😑, status invalid' });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ message: 'Ups, there was a problem, please try again😑' });

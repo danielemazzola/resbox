@@ -6,6 +6,6 @@ const { existSecureTokenOperation } = require('../../middleware/existSecureToken
 const ROUTER = require('express').Router();
 
 ROUTER.post('/create-operation/:id_box', isAuthUser, userStatus, createOperation);
-ROUTER.put('update-operation/:secure_token', isAuthRestaurant, existSecureTokenOperation, updateOperation);
+ROUTER.put('/update-operation/:secure_token', isAuthRestaurant, existSecureTokenOperation, updateOperation);
 
 module.exports = ROUTER;
