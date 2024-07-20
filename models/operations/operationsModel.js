@@ -1,33 +1,48 @@
 const mongoose = require('mongoose');
 
+const paidSchema = mongoose.Schema(
+  {
+    paid: {
+      type: Boolean,
+      default: false,
+    },
+    id_admin_paid: {
+      type: mongoose.Types.ObjectId,
+      ref: 'Admin',
+    },
+    id_transaction: {
+      type: String,
+      trim: true,
+    },
+  },
+  { timestamps: true }
+);
+
 const operationsSchema = mongoose.Schema(
   {
-    user_id: {
+    id_user: {
       type: mongoose.Types.ObjectId,
       ref: 'User',
       required: true,
     },
-    box_id: {
+    id_restaurant: {
+      type: mongoose.Types.ObjectId,
+      ref: 'User',
+      required: true,
+    },
+    id_box: {
       type: mongoose.Types.ObjectId,
       ref: 'Box',
       required: true,
     },
-    amount: {
+    consumed: {
       type: Number,
       required: true,
     },
-    type: {
-      type: String,
-      enum: ['income', 'expense'],
-      required: true,
-    },
+    paid: { type: paidSchema },
     transaction_date: {
       type: Date,
       default: Date.now,
-    },
-    discount: {
-      type: mongoose.Types.ObjectId,
-      ref: 'Discount',
     },
   },
   {
