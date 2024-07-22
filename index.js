@@ -18,17 +18,17 @@ CONNECTION_CLOUDINARY();
 // END CONNECT CLOUNINARY
 
 //CORS
-/* const whitelist = [process.env.FRONTEND_URL_IP]
+const whitelist = [process.env.FRONTEND_URL_IP];
 const corsOptions = {
   origin: function (origin, callback) {
     if (whitelist.includes(origin)) {
-      callback(null, true)
+      callback(null, true);
     } else {
-      callback(new Error('CORS ERROR'))
+      callback(new Error('CORS ERROR'));
     }
-  }
-}
-APP.use(CORS(corsOptions)) */
+  },
+};
+APP.use(CORS(corsOptions));
 APP.use(CORS());
 // END CORS
 
