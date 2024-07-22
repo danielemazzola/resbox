@@ -481,14 +481,12 @@ Below are the environment variables used in the project, along with their purpos
 
 - **Usage:** Password for the email account specified in `EMAIL_HOST`. Used for authenticating the email account when sending emails.
 
-## 👨‍💻 About Me
+## About Me
 
-<div>
-  <h2>Daniele Mazzola</h2>
-  <p>Full Stack Developer</p>
-  <img src="https://res.cloudinary.com/dikdpoylq/image/upload/v1719298167/avatar/glidqn3ssgmv2njtyqnx.png" alt="Daniele Mazzola's       Avatar"   width="150" style="border-radius: 20px;"/>
-  <p>
-    Connect with me on <a href="https://www.linkedin.com/in/daniele-mazzola/" target="_blank">LinkedIn</a>
-    <img src="https://static.vecteezy.com/system/resources/previews/023/986/970/non_2x/linkedin-logo-linkedin-logo-transparent-linkedin-icon-transparent-free-free-png.png" alt="LinkedIn Icon" width="20" style="vertical-align: middle;" />
-  </p>
-</div>
+### Daniele Mazzola
+
+_Full Stack Developer_
+
+<img src="https://res.cloudinary.com/dikdpoylq/image/upload/v1719298167/avatar/glidqn3ssgmv2njtyqnx.png" alt="Daniele Mazzola's Avatar" width="150" style="border-radius: 20px; display: block; margin: 0 auto;"/>
+
+Connect with me on [LinkedIn](https://www.linkedin.com/in/daniele-mazzola/) <img src="https://static.vecteezy.com/system/resources/previews/023/986/970/non_2x/linkedin-logo-linkedin-logo-transparent-linkedin-icon-transparent-free-free-png.png" alt="LinkedIn Icon" width="20" style="vertical-align: middle;" />
