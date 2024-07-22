@@ -487,6 +487,6 @@ Below are the environment variables used in the project, along with their purpos
 
 _Full Stack Developer_
 
-<img src="https://res.cloudinary.com/dikdpoylq/image/upload/v1719298167/avatar/glidqn3ssgmv2njtyqnx.png" alt="Daniele Mazzola's Avatar" width="150" style="border-radius: 20px; display: block; margin: 0 auto;"/>
+<img src="https://res.cloudinary.com/dikdpoylq/image/upload/v1719298167/avatar/glidqn3ssgmv2njtyqnx.png" alt="Daniele Mazzola's Avatar" width="150" style="border-radius: 20px;"/>
 
 Connect with me on [LinkedIn](https://www.linkedin.com/in/daniele-mazzola/) <img src="https://static.vecteezy.com/system/resources/previews/023/986/970/non_2x/linkedin-logo-linkedin-logo-transparent-linkedin-icon-transparent-free-free-png.png" alt="LinkedIn Icon" width="20" style="vertical-align: middle;" />
