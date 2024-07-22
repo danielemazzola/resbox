@@ -481,9 +481,9 @@ Below are the environment variables used in the project, along with their purpos
 
 - **Usage:** Password for the email account specified in `EMAIL_HOST`. Used for authenticating the email account when sending emails.
 
-## About Me
+## 🦉About Me🦉
 
-### Daniele Mazzola
+### 🔴Daniele Mazzola
 
 _Full Stack Developer_
 
