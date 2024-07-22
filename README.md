@@ -1,4 +1,4 @@
-# 📦 Res-Box: Final Project for Rock the Code 🎸
+# 📦 Res-Box: Final Project: Rock the Code 🎸
 
 ## Introduction
 
