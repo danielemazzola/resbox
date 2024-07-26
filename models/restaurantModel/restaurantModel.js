@@ -58,6 +58,10 @@ const restaurantSchema = mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    country: {
+      type: String,
+      required: true,
+    },
     offices_address: {
       type: String,
       required: true,
