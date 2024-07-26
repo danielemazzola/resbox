@@ -186,7 +186,7 @@ const buyBox = async (req, res) => {
 const getRestaurants = async (req, res) => {
   try {
     const restaurants = await Restaurant.find().select(
-      'avatar banner phone confirmed offices_address rating restaurant_name review'
+      'avatar banner phone confirmed offices_address rating ratingCount restaurant_name review'
     );
     if (restaurants.length === 0) return res.status(200).json({ message: 'There are not restaurants😢', restaurants });
     return res.status(200).json({ message: 'Restaurants', restaurants });
