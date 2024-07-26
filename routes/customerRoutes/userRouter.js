@@ -12,6 +12,7 @@ const {
   profile,
   updateAvatar,
   buyBox,
+  getRestaurants,
 } = require('../../controllers/userController/userController');
 
 ROUTER.post('/register', create); // NEW USER
@@ -22,5 +23,6 @@ ROUTER.post('/login', login); // LOGIN
 ROUTER.get('/profile', isAuthUser, profile); // PROFILE USER
 ROUTER.put('/update-avatar', isAuthUser, profileAvatar.single('avatar'), updateAvatar); // CHANGE AVATAR
 ROUTER.put('/buy-box/:id_box', existBox, isAuthUser, buyBox);
+ROUTER.get('/restaurants', getRestaurants); // PROFILE USER
 
 module.exports = ROUTER;

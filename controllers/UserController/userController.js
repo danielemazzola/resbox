@@ -5,6 +5,7 @@ const { deleteImg } = require('../../middleware/deleteImage');
 const User = require('../../models/customerModel/userModel');
 const { newUserEmail, recoverEmail, newPasswordEmail } = require('./emails/sendEmails');
 const Box = require('../../models/adminModel/box-pack/boxPackModel');
+const Restaurant = require('../../models/restaurantModel/restaurantModel');
 
 const create = async (req, res, next) => {
   const email = req.body.email.toLowerCase();
@@ -182,6 +183,19 @@ const buyBox = async (req, res) => {
   }
 };
 
+const getRestaurants = async (req, res) => {
+  try {
+    const restaurants = await Restaurant.find().select(
+      'avatar banner phone confirmed offices_address rating restaurant_name review'
+    );
+    if (restaurants.length === 0) return res.status(200).json({ message: 'There are not restaurants😢', restaurants });
+    return res.status(200).json({ message: 'Restaurants', restaurants });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: 'Ups, there was a problem, please try again😑' });
+  }
+};
+
 module.exports = {
   create,
   confirmAccount,
@@ -191,4 +205,5 @@ module.exports = {
   profile,
   updateAvatar,
   buyBox,
+  getRestaurants,
 };
