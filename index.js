@@ -29,7 +29,7 @@ const corsOptions = {
   },
 };
 APP.use(CORS(corsOptions));
-APP.use(CORS());
+//APP.use(CORS());
 // END CORS
 
 // ROUTERS
